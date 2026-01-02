@@ -30,5 +30,6 @@
     "codemirror": "^5.51.0",
     "entities": "^2.0.0",
     "mdurl": "^1.0.1"
-  }
+  },
+  "gitHead": "dc52efe7a31005e751a3954e97cc63ad18e64af0"
 }
