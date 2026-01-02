@@ -4,6 +4,16 @@
 
 [![github release version](https://img.shields.io/github/v/release/nhn/tui.editor.svg?include_prereleases)](https://github.com/nhn/tui.editor/releases/latest) [![npm version](https://img.shields.io/npm/v/@toast-ui/editor.svg)](https://www.npmjs.com/package/@toast-ui/editor) [![license](https://img.shields.io/github/license/nhn/tui.editor.svg)](https://github.com/nhn/tui.editor/blob/master/LICENSE) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/nhn/tui.editor/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) [![code with hearth by NHN Cloud](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-NHN_Cloud-ff1414.svg)](https://github.com/nhn)
 
+> [!IMPORTANT]
+> **MAINTENANCE FORK**: This is a maintained fork of `tui.editor`.
+>
+> **Recent Fixes (v3.2.3):**
+> *   **Critical Fix**: Fixed crash (`matched is null`) when parsing XML-like tags (e.g., `<?xml ...>`) or obscure HTML in `getHTML()`.
+> *   **Chart Plugin**: Fixed Pie Chart rendering issues where `type: pie` failed to display data.
+> *   **Rendering**: Fixed Multiline XML/HTML tag escaping issues in Markdown conversion.
+> *   **Tables**: Fixed crash when rendering custom Widgets within Table cells.
+> *   **Fonts**: Aremoved dependency on `Malgun Gothic` font which caused issues with Chinese character rendering.
+
 <img src="https://user-images.githubusercontent.com/37766175/121809054-446bac80-cc96-11eb-9139-08c6d9ad2d88.png" />
 
 
