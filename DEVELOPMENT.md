@@ -135,3 +135,45 @@ A Docker-based reproduction environment helps in isolating bugs.
     -   *Example*: Fixed in #2172 where `getHTML()` crashed because `toWysiwygModel` returned null.
 
 
+
+## Release Process
+
+### Authentication
+To publish packages to the `@licium` scope, you need an NPM token with **Read and Publish** permissions.
+
+1.  Generate a **Classic Token** on npmjs.com (Type: **Automation** recommended to bypass 2FA prompts during CI/automated scripts).
+2.  Create or update the `.npmrc` file in the project root:
+    ```ini
+    //registry.npmjs.org/:_authToken=YOUR_NPM_TOKEN
+    ```
+3.  Verify your login:
+    ```bash
+    npm whoami
+    # Should output 'natorus87' (or the account owner of the scope)
+    ```
+
+### Publishing Steps
+We use `lerna` to manage multi-package releases.
+
+1.  **Ensure Clean State**: Make sure all changes are committed.
+2.  **Build**: Ensure everything is built (usually handled by pre-publish scripts, but good to verify).
+3.  **Publish**:
+    ```bash
+    ./node_modules/.bin/lerna publish from-package --yes
+    ```
+    -   `from-package`: Compares the version in `package.json` with the registry. If local > registry, it publishes. This is robust for retries.
+    -   `--yes`: Skips confirmation prompts.
+
+### Troubleshooting
+-   **"Access token expired or revoked"**:
+    -   Verify your token in `.npmrc`.
+    -   Ensure it is a **Classic Token**. Granular Access Tokens sometimes have scope issues with Lerna/CLI.
+    -   Run `npm whoami` to confirm the token is picked up.
+    -   Check if a global `.npmrc` (`~/.npmrc`) conflicts with the local one.
+-   **Partial Failures**:
+    -   If Lerna fails midway (e.g., E404 for some packages), you can manually publish the failed packages:
+        ```bash
+        cd packages/failed-package
+        npm publish --access public
+        ```
+    -   Then re-run `lerna publish from-package` to ensure consistency.
