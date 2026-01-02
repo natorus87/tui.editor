@@ -28,6 +28,8 @@ export default class ToMdConvertorState {
 
   public inTable: boolean;
 
+  private infoForPosSync: InfoForPosSync | null;
+
   constructor({ nodeTypeConvertors, markTypeConvertors }: ToMdConvertors) {
     this.nodeTypeConvertors = nodeTypeConvertors;
     this.markTypeConvertors = markTypeConvertors;
@@ -37,6 +39,7 @@ export default class ToMdConvertorState {
     this.tightList = false;
     this.stopNewline = false;
     this.inTable = false;
+    this.infoForPosSync = null;
   }
 
   private getMarkConvertor(mark: Mark) {
@@ -76,7 +79,7 @@ export default class ToMdConvertorState {
       }
 
       if (!size) {
-        size = 2;
+        size = this.tightList ? 1 : 2;
       }
 
       if (size > 1) {
@@ -145,11 +148,44 @@ export default class ToMdConvertorState {
     const type = node.type.name as WwNodeType;
     const convertor = this.nodeTypeConvertors[type];
     const nodeInfo = { node, parent, index };
+    const startPos = this.result.length;
+
+    // We can't access infoForPosSync easily here unless we pass it down or store it in state?
+    // convertNode has it. I should assign it to class property?
+    // The class ToMdConvertorState does NOT have infoForPosSync property.
+    // I need to add it or pass it.
+    // Making it a property is invasive.
+    // But convertNode calls convert which calls convertBlock.
+
+    // Wait, convertNode(mdNode, info) calls convert(mdNode, info).
+    // convert(mdNode, info) calls convertBlock?
+    // No, ToWwConvertorState has `convert` (walker).
+    // ToMdConvertorState `convertNode` calls `convertNode` (recursive) -> `convertBlock`.
+
+    // `toMdConvertorState.ts` `convertNode` implementation:
+    // convertNode(parent: Node, infoForPosSync?: InfoForPosSync | null) {
+    //   parent.forEach(...) { this.convertBlock... }
+    // }
+
+    // So `convertBlock` is called from `convertNode` or recursive `convertBlock` (via `convertList` etc).
+    // BUT `convertBlock` does NOT take `infoForPosSync`.
+
+    // I must modify `convertNode` to pass it, or store it.
+    // Storing it in the instance is cleanest given the recursion.
+    // I need to add `infoForPosSync` to the class.
 
     if (node.attrs.htmlBlock) {
       this.nodeTypeConvertors.html!(this, nodeInfo);
     } else if (convertor) {
       convertor(this, nodeInfo);
+    }
+
+    if (this.infoForPosSync && this.infoForPosSync.node === node) {
+      const targetPos = startPos + (this.infoForPosSync.offset || 0);
+      const textUntilCursor = this.result.substring(0, targetPos);
+      const lines = textUntilCursor.split('\n');
+
+      this.infoForPosSync.setMappedPos([lines.length, last(lines).length + 1]);
     }
   }
 
@@ -341,14 +377,10 @@ export default class ToMdConvertorState {
   }
 
   convertNode(parent: Node, infoForPosSync?: InfoForPosSync | null) {
+    this.infoForPosSync = infoForPosSync || null;
+
     parent.forEach((node, _, index) => {
       this.convertBlock(node, parent, index);
-
-      if (infoForPosSync?.node === node) {
-        const lineTexts = this.result.split('\n');
-
-        infoForPosSync.setMappedPos([lineTexts.length, last(lineTexts).length + 1]);
-      }
     });
 
     return this.result;

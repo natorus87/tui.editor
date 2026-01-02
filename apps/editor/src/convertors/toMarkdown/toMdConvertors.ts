@@ -96,7 +96,7 @@ export const toMdConvertors: ToMdConvertorMap = {
     }
 
     return {
-      delim: '*',
+      delim: node.attrs.bullet || '*',
       rawHTML: getPairRawHTML(rawHTML),
     };
   },
@@ -108,8 +108,17 @@ export const toMdConvertors: ToMdConvertorMap = {
       rawHTML = rawHTML || 'ol';
     }
 
+    if (rawHTML) {
+      const start = node.attrs.order;
+      const attrs = start && start !== 1 ? ` start="${start}"` : '';
+
+      return {
+        rawHTML: [`<${rawHTML}${attrs}>`, `</${rawHTML}>`],
+      };
+    }
+
     return {
-      rawHTML: getPairRawHTML(rawHTML),
+      rawHTML: null,
     };
   },
 
@@ -167,15 +176,17 @@ export const toMdConvertors: ToMdConvertorMap = {
 
   image({ node }) {
     const { attrs } = node;
-    const { rawHTML, altText } = attrs;
+    const { rawHTML, altText, title } = attrs;
     const imageUrl = attrs.imageUrl.replace(/&amp;/g, '&');
     const altAttr = altText ? ` alt="${escapeXml(altText)}"` : '';
+    const titleAttr = title ? ` title="${escapeXml(title)}"` : '';
 
     return {
-      rawHTML: rawHTML ? `<${rawHTML} src="${escapeXml(imageUrl)}"${altAttr}>` : null,
+      rawHTML: rawHTML ? `<${rawHTML} src="${escapeXml(imageUrl)}"${altAttr}${titleAttr}>` : null,
       attrs: {
         altText: escapeTextForLink(altText || ''),
         imageUrl,
+        title,
       },
     };
   },
@@ -237,14 +248,35 @@ export const toMdConvertors: ToMdConvertorMap = {
 
   link({ node }, { entering }) {
     const { attrs } = node;
-    const { title, rawHTML } = attrs;
-    const linkUrl = attrs.linkUrl.replace(/&amp;/g, '&');
+    const { title, rawHTML, target, rel, class: className, id } = attrs;
+    const linkUrl = encodeURI(attrs.linkUrl.replace(/&amp;/g, '&'));
     const titleAttr = title ? ` title="${escapeXml(title)}"` : '';
 
     if (entering) {
+      if (!rawHTML && (target || rel || className || id)) {
+        const targetAttr = target ? ` target="${escapeXml(target)}"` : '';
+        const relAttr = rel ? ` rel="${escapeXml(rel)}"` : '';
+        const classAttr = className ? ` class="${escapeXml(className)}"` : '';
+        const idAttr = id ? ` id="${escapeXml(id)}"` : '';
+
+        return {
+          delim: '',
+          rawHTML: `<a href="${escapeXml(
+            linkUrl
+          )}"${titleAttr}${targetAttr}${relAttr}${classAttr}${idAttr}>`,
+        };
+      }
+
       return {
         delim: '[',
         rawHTML: rawHTML ? `<${rawHTML} href="${escapeXml(linkUrl)}"${titleAttr}>` : null,
+      };
+    }
+
+    if (!rawHTML && (target || rel || className || id)) {
+      return {
+        delim: '',
+        rawHTML: '</a>',
       };
     }
 
@@ -336,8 +368,8 @@ function createNodeTypeConvertors(convertors: ToMdConvertorMap) {
         const convertor = convertors[type];
         const params = convertor
           ? convertor(nodeInfo as NodeInfo, {
-              inTable: state.inTable,
-            })
+            inTable: state.inTable,
+          })
           : {};
 
         write(type, { state, nodeInfo, params });

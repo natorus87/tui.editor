@@ -1,6 +1,6 @@
 import { DOMOutputSpec, ProsemirrorNode, Schema } from 'prosemirror-model';
-import { Transaction, Selection } from 'prosemirror-state';
-import { chainCommands, joinForward, Command } from 'prosemirror-commands';
+import { Transaction, Selection, Command } from 'prosemirror-state';
+import { chainCommands, joinForward } from 'prosemirror-commands';
 import { EditorCommand, MdSpecContext } from '@t/spec';
 import { clsWithMdPrefix } from '@/utils/dom';
 import Node from '@/spec/node';

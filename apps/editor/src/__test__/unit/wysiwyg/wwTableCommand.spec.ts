@@ -3,6 +3,7 @@ import { oneLineTrim } from 'common-tags';
 import WysiwygEditor from '@/wysiwyg/wwEditor';
 import EventEmitter from '@/event/eventEmitter';
 import CommandManager from '@/commands/commandManager';
+import { NodeSelection } from 'prosemirror-state';
 import CellSelection from '@/wysiwyg/plugins/selection/cellSelection';
 
 import { WwToDOMAdaptor } from '@/wysiwyg/adaptor/wwToDOMAdaptor';
@@ -954,6 +955,26 @@ describe('wysiwyg table commands', () => {
       `;
 
       expect(wwe.getHTML()).toBe(expected);
+    });
+
+    it('should align column correctly when NodeSelection is used on a cell (Bug #3296)', () => {
+      cmd.exec('addTable', {
+        rowCount: 2,
+        columnCount: 2,
+        data: ['NodeSel', 'Center', '1', '2'],
+      });
+
+      const { doc, tr } = wwe.view.state;
+      const cellPos = doc.resolve(3);
+      const selection = new NodeSelection(cellPos);
+
+      wwe.view.dispatch(tr.setSelection(selection));
+
+      cmd.exec('alignColumn', { align: 'right' });
+
+      const html = wwe.getHTML();
+
+      expect(html).toContain('<th align="right"><p>NodeSel</p></th>');
     });
   });
 });

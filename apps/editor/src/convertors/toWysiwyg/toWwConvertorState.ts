@@ -150,7 +150,14 @@ export default class ToWwConvertorState {
               0
             ) + 1;
 
-          infoForPosSync.setMappedPos(pos);
+          let mapPos = pos;
+          const lastNode = last(this.top().content);
+
+          if (lastNode && infoForPosSync.offset) {
+            mapPos = pos - lastNode.nodeSize + infoForPosSync.offset;
+          }
+
+          infoForPosSync.setMappedPos(mapPos);
         }
       }
 

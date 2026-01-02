@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUI Editor Reproduction</title>
+    <!-- CSS (Bundled) -->
+    <link rel="stylesheet" href="/apps/editor/dist/cdn/toastui-editor.css">
+
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        #editor {
+            margin-top: 20px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>TUI Editor Bug Reproduction Environment</h1>
+    <div class="controls">
+        <button id="btn-md">Get Markdown</button>
+        <button id="btn-html">Get HTML</button>
+        <button id="btn-mode">Toggle Mode</button>
+    </div>
+
+    <div id="editor"></div>
+
+    <div style="margin-top: 20px;">
+        <h3>Output:</h3>
+        <pre id="output" style="background: #f4f4f4; padding: 10px; border: 1px solid #ccc;"></pre>
+    </div>
+
+    <!-- JS (Bundled UMD) -->
+    <script src="/apps/editor/dist/cdn/toastui-editor-all.js?v=fix2944"></script>
+
+    <!-- Chart Dependencies -->
+    <link rel="stylesheet" href="/node_modules/@toast-ui/chart/dist/toastui-chart.min.css">
+    <script src="/node_modules/@toast-ui/chart/dist/toastui-chart.min.js"></script>
+    <script src="/plugins/chart/dist/toastui-editor-plugin-chart.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('ToastUI Global:', window.toastui);
+            const Editor = toastui.Editor;
+            const { chart } = Editor.plugin;
+
+            const editor = new Editor({
+                el: document.querySelector('#editor'),
+                height: '500px',
+                initialEditType: 'wysiwyg',
+                previewStyle: 'vertical',
+                initialValue: '| Header 1 | Header 2 |\\n| --- | --- |\\n| Cell 1 | Cell 2 |',
+                plugins: [chart]
+            });
+
+            window.editor = editor; // Expose to console
+
+            document.getElementById('btn-md').addEventListener('click', () => {
+                const md = editor.getMarkdown();
+                console.log(md);
+                document.getElementById('output').textContent = md;
+            });
+
+            document.getElementById('btn-html').addEventListener('click', () => {
+                const html = editor.getHTML();
+                console.log(html);
+                document.getElementById('output').textContent = html;
+            });
+
+            document.getElementById('btn-mode').addEventListener('click', () => {
+                if (editor.isMarkdownMode()) {
+                    editor.changeMode('wysiwyg');
+                } else {
+                    editor.changeMode('markdown');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

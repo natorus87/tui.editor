@@ -994,7 +994,7 @@ describe('editor', () => {
         editor.changeMode('wysiwyg');
 
         const result = oneLineTrim`
-          <iframe width="" height="" src="" class="html-block"></iframe>
+          <iframe width="" height="" src="" class="html-block ProseMirror-selectednode" draggable="true"></iframe>
         `;
 
         expect(wwEditor.innerHTML).toContain(result);

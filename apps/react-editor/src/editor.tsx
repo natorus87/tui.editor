@@ -68,6 +68,10 @@ export default class extends React.Component<EditorProps> {
     return false;
   }
 
+  componentWillUnmount() {
+    this.editorInst.destroy();
+  }
+
   render() {
     return <div ref={this.rootEl} />;
   }

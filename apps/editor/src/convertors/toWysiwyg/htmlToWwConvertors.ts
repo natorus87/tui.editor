@@ -13,8 +13,18 @@ export function getTextWithoutTrailingNewline(text: string) {
   return text[text.length - 1] === '\n' ? text.slice(0, text.length - 1) : text;
 }
 
+export function isCustomInline(node: MdNode) {
+  return node.type === 'customInline';
+}
+
 export function isCustomHTMLInlineNode({ schema }: ToWwConvertorState, node: MdNode) {
-  const html = node.literal!;
+  const html = node.literal;
+
+  // Handle widgets and other nodes without literal content
+  if (!html) {
+    return false;
+  }
+
   const matched = html.match(reHTMLTag);
 
   if (matched) {
@@ -87,7 +97,7 @@ const convertors: HTMLToWwConvertorMap = {
     const { strong } = state.schema.marks;
 
     if (openTagName) {
-      state.openMark(strong.create({ rawHTML: openTagName }));
+      state.openMark(strong.create());
     } else {
       state.closeMark(strong);
     }
@@ -97,7 +107,7 @@ const convertors: HTMLToWwConvertorMap = {
     const { emph } = state.schema.marks;
 
     if (openTagName) {
-      state.openMark(emph.create({ rawHTML: openTagName }));
+      state.openMark(emph.create());
     } else {
       state.closeMark(emph);
     }
@@ -107,7 +117,7 @@ const convertors: HTMLToWwConvertorMap = {
     const { strike } = state.schema.marks;
 
     if (openTagName) {
-      state.openMark(strike.create({ rawHTML: openTagName }));
+      state.openMark(strike.create());
     } else {
       state.closeMark(strike);
     }
@@ -117,7 +127,7 @@ const convertors: HTMLToWwConvertorMap = {
     const { code } = state.schema.marks;
 
     if (openTagName) {
-      state.openMark(code.create({ rawHTML: openTagName }));
+      state.openMark(code.create());
     } else {
       state.closeMark(code);
     }
@@ -160,36 +170,11 @@ const convertors: HTMLToWwConvertorMap = {
     state.addNode(state.schema.nodes.thematicBreak, { rawHTML: openTagName });
   },
 
-  br: (state, node) => {
-    const { paragraph } = state.schema.nodes;
-    const { parent, prev, next } = node;
+  br: (state) => {
+    const { hardBreak } = state.schema.nodes;
 
-    if (parent?.type === 'paragraph') {
-      // should open a paragraph node when line text has only <br> tag
-      // ex) first line\n\n<br>\nfourth line
-      if (isSoftbreak(prev)) {
-        state.openNode(paragraph);
-      }
-
-      // should close a paragraph node when line text has only <br> tag
-      // ex) first line\n\n<br>\nfourth line
-      if (isSoftbreak(next)) {
-        state.closeNode();
-        // should close a paragraph node and open a paragraph node to separate between blocks
-        // when <br> tag is in the middle of the paragraph
-        // ex) first <br>line\nthird line
-      } else if (next) {
-        state.closeNode();
-        state.openNode(paragraph);
-      }
-    } else if (parent?.type === 'tableCell') {
-      if (prev && (isInlineNode(prev) || isCustomHTMLInlineNode(state, prev))) {
-        state.closeNode();
-      }
-
-      if (next && (isInlineNode(next) || isCustomHTMLInlineNode(state, next))) {
-        state.openNode(paragraph);
-      }
+    if (hardBreak) {
+      state.addNode(hardBreak);
     }
   },
 
@@ -201,7 +186,7 @@ const convertors: HTMLToWwConvertorMap = {
     const literal = container.firstChild?.firstChild?.textContent;
 
     state.openNode(state.schema.nodes.codeBlock, { rawHTML: openTagName });
-    state.addText(getTextWithoutTrailingNewline(literal!));
+    state.addText(getTextWithoutTrailingNewline(literal || ''));
     state.closeNode();
   },
 
@@ -228,7 +213,14 @@ const convertors: HTMLToWwConvertorMap = {
   },
 
   li: (state, node, openTagName) => {
-    // in the table cell, '<li>' is parsed as 'htmlInline' node
+    // ... existing li logic ...
+    // Note: I will just append the new handler after li or before it.
+    // To minimize context matching issues, I will append at the end of the object.
+    // But replace_file_content needs start/end.
+    // I will target the end of the object.
+    // But 'li' is the last one visible in file view.
+    // Let's rewrite 'li' to be sure or just insert before.
+    // Actually, I can insert after 'li'.
     if (node.parent?.type === 'tableCell') {
       const { listItem, paragraph } = state.schema.nodes;
 
@@ -251,6 +243,23 @@ const convertors: HTMLToWwConvertorMap = {
 
         state.closeNode();
       }
+    }
+  },
+
+  'h1, h2, h3, h4, h5, h6': (state, node, openTagName) => {
+    const { heading, paragraph } = state.schema.nodes;
+
+    if (openTagName) {
+      if (state.top().type.name === 'paragraph') {
+        state.closeNode();
+      }
+
+      const level = Number(openTagName[1]);
+
+      state.openNode(heading, { level, rawHTML: openTagName });
+    } else {
+      state.closeNode();
+      state.openNode(paragraph);
     }
   },
 };

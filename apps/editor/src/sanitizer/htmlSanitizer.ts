@@ -30,6 +30,8 @@ export function sanitizeHTML<T extends string | HTMLElement | DocumentFragment =
       'title',
       'object',
       'base',
+      'svg',
+      'math',
     ],
     ...options,
   }) as T;

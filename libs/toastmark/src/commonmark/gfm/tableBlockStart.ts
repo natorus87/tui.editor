@@ -8,15 +8,61 @@ function parseRowContent(content: string): [number, string[]] {
   let startIdx = 0;
   let offset = 0;
   const cells = [];
+  let inCodeSpan = false;
+  let codeSpanDelimLen = 0;
+
   for (let i = 0; i < content.length; i += 1) {
-    if (content[i] === '|' && content[i - 1] !== '\\') {
-      const cell = content.substring(startIdx, i);
-      if (startIdx === 0 && isEmpty(cell)) {
-        offset = i + 1;
-      } else {
-        cells.push(cell);
+    const c = content[i];
+
+    if (c === '`') {
+      let runLen = 0;
+      for (let j = i; j < content.length; j += 1) {
+        if (content[j] === '`') {
+          runLen += 1;
+        } else {
+          break;
+        }
       }
-      startIdx = i + 1;
+
+      if (inCodeSpan) {
+        if (runLen === codeSpanDelimLen) {
+          inCodeSpan = false;
+        }
+      } else {
+        let backslashes = 0;
+        for (let j = i - 1; j >= 0; j -= 1) {
+          if (content[j] === '\\') {
+            backslashes += 1;
+          } else {
+            break;
+          }
+        }
+
+        if (backslashes % 2 === 0) {
+          inCodeSpan = true;
+          codeSpanDelimLen = runLen;
+        }
+      }
+      i += runLen - 1;
+    } else if (c === '|' && !inCodeSpan) {
+      let backslashes = 0;
+      for (let j = i - 1; j >= 0; j -= 1) {
+        if (content[j] === '\\') {
+          backslashes += 1;
+        } else {
+          break;
+        }
+      }
+
+      if (backslashes % 2 === 0) {
+        const cell = content.substring(startIdx, i);
+        if (startIdx === 0 && isEmpty(cell)) {
+          offset = i + 1;
+        } else {
+          cells.push(cell);
+        }
+        startIdx = i + 1;
+      }
     }
   }
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bug #1347 Reproduction</title>
+    <link rel="stylesheet" href="./libs/toastui-editor/toastui-editor.min.css">
+    <style>
+        body {
+            margin: 20px;
+            font-family: sans-serif;
+        }
+
+        #editor-container {
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bug #1347 Reproduction</h1>
+    <p>Verifying soft break conversion from WYSIWYG to Markdown.</p>
+    <div id="editor-container"></div>
+
+    <script src="./libs/toastui-editor/toastui-editor-all.min.js"></script>
+    <script>
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor-container'),
+            height: '500px',
+            initialEditType: 'wysiwyg',
+            previewStyle: 'vertical'
+        });
+
+        // Simulate content with a soft break (or simple newline) in WYSIWYG
+        // In ProseMirror, a soft break is usually a <br> node or text with \n if handled specifically?
+        // We'll insert HTML directly to simulate the WYSIWYG state.
+        // 'foo bar<br>foo bar' is the standard way to represent a hard line break within a paragraph in HTML/WYSIWYG.
+
+        editor.setHTML('<p>foo bar<br>foo bar</p>');
+
+        window.editor = editor;
+    </script>
+</body>
+
+</html>

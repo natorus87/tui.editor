@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bug #2253 Reproduction</title>
+    <link rel="stylesheet" href="./libs/toastui-editor/toastui-editor.min.css">
+    <style>
+        body {
+            margin: 20px;
+            font-family: sans-serif;
+        }
+
+        #editor-container {
+            width: 800px;
+            height: 500px;
+            /* Fixed height to trigger scroll */
+            border: 2px solid red;
+            /* Visual boundary */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bug #2253 Reproduction</h1>
+    <p>1. Switch to Markdown. 2. Switch back to WYSIWYG. 3. Check if content overflows or scroll is broken.</p>
+    <div id="editor-container"></div>
+
+    <script src="./libs/toastui-editor/toastui-editor-all.min.js"></script>
+    <script>
+        const content = `Duis viverra semper blandit. Duis rutrum suscipit turpis, id mattis urna imperdiet in. Integer aliquam nibh nulla, at tincidunt diam posuere eget. Praesent blandit elementum velit ut pellentesque. Donec consectetur varius metus nec mattis. Praesent nec pellentesque ante. Cras urna justo, interdum sit amet mi non, consectetur pellentesque nisl. Etiam a velit sodales, faucibus nisl eu, aliquam lectus. Donec porttitor neque quam, vitae consectetur orci commodo quis. Sed condimentum mollis sagittis. Sed consectetur hendrerit augue id feugiat. Donec lectus eros, consectetur at dui et, eleifend vestibulum ipsum. Nunc semper tellus a mi volutpat, a ornare leo viverra. Etiam eu lacus aliquam, porta libero egestas, vulputate mi. Fusce egestas ipsum eu rhoncus porta. Aliquam erat volutpat. Nunc est tellus, semper sit amet viverra ut, convallis a odio. Curabitur ullamcorper lorem augue, ac dictum velit maximus sit amet. Pellentesque volutpat ligula et libero interdum, ac ultricies magna finibus. Aenean a augue sodales, pretium erat in, rutrum felis. Nulla lacinia maximus nibh, nec congue justo dignissim ut. Integer a egestas dolor, sit amet pharetra nisi. Donec maximus quis quam eget hendrerit. Fusce vestibulum feugiat diam, eu scelerisque odio. Morbi erat elit, tempus id aliquam a, aliquet at lectus. Nunc rhoncus erat a orci rutrum aliquam. Vivamus eros erat, mattis in velit ut, efficitur ultrices lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla a est et leo bibendum efficitur. Duis eget sem dignissim, rutrum ex eget, iaculis libero. Praesent nec gravida mauris, vitae consequat massa. Maecenas posuere ac orci nec malesuada. Mauris eu libero ac metus egestas volutpat. Maecenas eget lobortis ex. Nullam at elit a velit feugiat mattis sit amet a nibh.
+
+Duis viverra semper blandit. Duis rutrum suscipit turpis, id mattis urna imperdiet in. Integer aliquam nibh nulla, at tincidunt diam posuere eget. Praesent blandit elementum velit ut pellentesque. Donec consectetur varius metus nec mattis. Praesent nec pellentesque ante. Cras urna justo, interdum sit amet mi non, consectetur pellentesque nisl. Etiam a velit sodales, faucibus nisl eu, aliquam lectus. Donec porttitor neque quam, vitae consectetur orci commodo quis. Sed condimentum mollis sagittis. Sed consectetur hendrerit augue id feugiat. Donec lectus eros, consectetur at dui et, eleifend vestibulum ipsum. Nunc semper tellus a mi volutpat, a ornare leo viverra. Etiam eu lacus aliquam, porta libero egestas, vulputate mi. Fusce egestas ipsum eu rhoncus porta. Aliquam erat volutpat. Nunc est tellus, semper sit amet viverra ut, convallis a odio. Curabitur ullamcorper lorem augue, ac dictum velit maximus sit amet. Pellentesque volutpat ligula et libero interdum, ac ultricies magna finibus. Aenean a augue sodales, pretium erat in, rutrum felis. Nulla lacinia maximus nibh, nec congue justo dignissim ut. Integer a egestas dolor, sit amet pharetra nisi. Donec maximus quis quam eget hendrerit. Fusce vestibulum feugiat diam, eu scelerisque odio. Morbi erat elit, tempus id aliquam a, aliquet at lectus. Nunc rhoncus erat a orci rutrum aliquam. Vivamus eros erat, mattis in velit ut, efficitur ultrices lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla a est et leo bibendum efficitur. Duis eget sem dignissim, rutrum ex eget, iaculis libero. Praesent nec gravida mauris, vitae consequat massa. Maecenas posuere ac orci nec malesuada. Mauris eu libero ac metus egestas volutpat. Maecenas eget lobortis ex. Nullam at elit a velit feugiat mattis sit amet a nibh.`;
+
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor-container'),
+            height: '500px',
+            initialEditType: 'wysiwyg',
+            previewStyle: 'vertical',
+            initialValue: content
+        });
+
+        // Auto-reproduce script (optional helpers)
+        window.switchMode = (mode) => editor.changeMode(mode);
+    </script>
+</body>
+
+</html>

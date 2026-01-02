@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bug #2007 Reproduction</title>
+    <link rel="stylesheet" href="./libs/toastui-editor/toastui-editor.min.css">
+    <style>
+        body {
+            margin: 20px;
+            font-family: sans-serif;
+        }
+
+        #editor-container {
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bug #2007 Reproduction</h1>
+    <p>Code block inside list item breaks on mode switch.</p>
+    <div id="editor-container"></div>
+
+    <script src="./libs/toastui-editor/toastui-editor-all.min.js"></script>
+    <script>
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor-container'),
+            height: '500px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical'
+        });
+
+        // The reproduction markdown from the issue
+        const initialMarkdown = [
+            '1. 123123123',
+            '2.',
+            '    ```py',
+            '    sdsdfsdfsdf',
+            '    ```',
+            '3. sdfsdfsdfdf'
+        ].join('\n');
+
+        editor.setMarkdown(initialMarkdown);
+
+        window.editor = editor;
+    </script>
+</body>
+
+</html>

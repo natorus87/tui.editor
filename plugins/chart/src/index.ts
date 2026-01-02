@@ -155,12 +155,12 @@ export function parseToChartData(text: string, delimiter?: string | RegExp) {
   const series = tdsv.map((data, i) =>
     hasLegends
       ? {
-          name: legends[i],
-          data,
-        }
+        name: legends[i],
+        data,
+      }
       : {
-          data,
-        }
+        data,
+      }
   );
 
   return { categories, series };
@@ -314,6 +314,15 @@ function renderChart(
         } else {
           const toastuiChart = chart[chartType];
 
+          if (chartType === 'pie') {
+            const series = data.series.map(({ name, data: seriesData }) => ({
+              name,
+              data: seriesData[0],
+            }));
+            // @ts-ignore
+            data.series = series;
+          }
+
           chartOptions.usageStatistics = usageStatistics;
           // @ts-ignore
           chartMap[id] = toastuiChart({ el: chartContainer, data, options: chartOptions });
@@ -329,14 +338,7 @@ function generateId() {
   return `chart-${Math.random().toString(36).substr(2, 10)}`;
 }
 
-let timer: NodeJS.Timeout | null = null;
 
-function clearTimer() {
-  if (timer) {
-    clearTimeout(timer);
-    timer = null;
-  }
-}
 
 /**
  * Chart plugin
@@ -358,11 +360,9 @@ export default function chartPlugin(
       chart(node: MdNode) {
         const id = generateId();
 
-        clearTimer();
-
-        timer = setTimeout(() => {
+        setTimeout(() => {
           renderChart(id, node.literal!, usageStatistics, options);
-        });
+        }, 0);
         return [
           {
             type: 'openTag',

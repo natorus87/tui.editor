@@ -9,7 +9,7 @@ import {
 } from '@/wysiwyg/helper/node';
 import { changeList, toggleTask } from '@/wysiwyg/command/list';
 
-import { Command } from 'prosemirror-commands';
+import { Command } from 'prosemirror-state';
 
 export class BulletList extends NodeSchema {
   get name() {
@@ -22,6 +22,7 @@ export class BulletList extends NodeSchema {
       group: 'block',
       attrs: {
         rawHTML: { default: null },
+        bullet: { default: null },
         ...getDefaultCustomAttrs(),
       },
       parseDOM: [createDOMInfoParsedRawHTML('ul')],

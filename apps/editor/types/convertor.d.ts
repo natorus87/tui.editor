@@ -139,4 +139,5 @@ export interface ToMdConvertors {
 export interface InfoForPosSync {
   node: MdNode | ProsemirrorNode | null;
   setMappedPos: (pos: MdPos | number) => void;
+  offset?: number;
 }

@@ -121,18 +121,33 @@ export default class TableSelection {
   }
 
   setCellSelection(startCellPos: ResolvedPos, endCellPos: ResolvedPos) {
-    const { selection, tr } = this.view.state;
-    const starting = pluginKey.getState(this.view.state) === null;
-    const cellSelection = new CellSelection(startCellPos, endCellPos);
+    try {
+      const { selection, tr, doc } = this.view.state;
 
-    if (starting || !selection.eq(cellSelection)) {
-      const newTr = tr.setSelection(cellSelection);
-
-      if (starting) {
-        newTr.setMeta(pluginKey, endCellPos.pos);
+      // Ensure startCellPos refers to the current document
+      if (startCellPos.doc !== doc) {
+        if (startCellPos.pos > doc.content.size) {
+          return;
+        }
+        startCellPos = doc.resolve(startCellPos.pos);
       }
 
-      this.view.dispatch!(newTr);
+      const starting = pluginKey.getState(this.view.state) === null;
+      const cellSelection = new CellSelection(startCellPos, endCellPos);
+
+      if (starting || !selection.eq(cellSelection)) {
+        const newTr = tr.setSelection(cellSelection);
+
+        if (starting) {
+          newTr.setMeta(pluginKey, endCellPos.pos);
+        }
+
+        this.view.dispatch!(newTr);
+      }
+    } catch (e) {
+      // Prevent crash if selection creation fails (e.g. invalid ranges or constructor error)
+      // eslint-disable-next-line no-console
+      console.warn('Failed to set table cell selection:', e);
     }
   }
 

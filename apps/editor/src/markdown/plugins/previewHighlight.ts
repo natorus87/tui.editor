@@ -87,6 +87,7 @@ export function previewHighlight({ toastMark, eventEmitter }: MdContext) {
           if (prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)) {
             return;
           }
+
           const { from } = selection;
           const startChOffset = state.doc.resolve(from).start();
           const line = state.doc.content.findIndex(from).index + 1;
@@ -96,7 +97,12 @@ export function previewHighlight({ toastMark, eventEmitter }: MdContext) {
             ch += 1;
           }
           const cursorPos: MdPos = [line, ch];
-          const mdNode = toastMark.findNodeAtPosition(cursorPos)!;
+          const mdNode = toastMark.findNodeAtPosition(cursorPos);
+
+          if (!mdNode) {
+            return;
+          }
+
           const toolbarState = getToolbarState(mdNode);
 
           eventEmitter.emit('changeToolbarState', {
@@ -104,7 +110,19 @@ export function previewHighlight({ toastMark, eventEmitter }: MdContext) {
             mdNode,
             toolbarState,
           });
-          eventEmitter.emit('setFocusedNode', mdNode);
+
+          let offset = 0;
+
+          if (mdNode.sourcepos) {
+            const nodeStartLine = mdNode.sourcepos[0][0];
+            const nodeStartCh = mdNode.sourcepos[0][1];
+
+            if (line === nodeStartLine) {
+              offset = ch - nodeStartCh + 1;
+            }
+          }
+
+          eventEmitter.emit('setFocusedNode', mdNode, offset);
         },
       };
     },

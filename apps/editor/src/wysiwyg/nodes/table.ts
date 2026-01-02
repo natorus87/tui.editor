@@ -1,6 +1,5 @@
 import { DOMOutputSpec, ProsemirrorNode } from 'prosemirror-model';
-import { TextSelection, Transaction } from 'prosemirror-state';
-import { Command } from 'prosemirror-commands';
+import { TextSelection, Transaction, Command } from 'prosemirror-state';
 
 import NodeSchema from '@/spec/node';
 import {

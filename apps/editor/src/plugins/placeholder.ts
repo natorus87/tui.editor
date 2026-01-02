@@ -19,16 +19,12 @@ export function placeholder(options: Options) {
           doc.firstChild!.isTextblock &&
           doc.firstChild!.content.size === 0
         ) {
-          const placeHolder = document.createElement('span');
-
-          addClass(placeHolder, 'placeholder');
-
-          if (options.className) {
-            addClass(placeHolder, options.className);
-          }
-          placeHolder.textContent = options.text;
-
-          return DecorationSet.create(doc, [Decoration.widget(1, placeHolder)]);
+          return DecorationSet.create(doc, [
+            Decoration.node(0, doc.firstChild!.nodeSize, {
+              class: `${options.className ? `${options.className} ` : ''}placeholder`,
+              'data-placeholder': options.text,
+            }),
+          ]);
         }
         return null;
       },

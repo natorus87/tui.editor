@@ -1,7 +1,6 @@
 import { ProsemirrorNode, NodeType, NodeRange, Fragment, Slice } from 'prosemirror-model';
 import { ReplaceAroundStep, canSplit, liftTarget } from 'prosemirror-transform';
-import { Transaction, Selection, EditorState } from 'prosemirror-state';
-import { Command } from 'prosemirror-commands';
+import { Transaction, Selection, EditorState, Command } from 'prosemirror-state';
 
 import { findListItem, isInListNode } from '@/wysiwyg/helper/node';
 

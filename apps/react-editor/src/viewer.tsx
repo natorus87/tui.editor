@@ -57,6 +57,10 @@ export default class ViewerComponent extends React.Component<ViewerProps> {
     return false;
   }
 
+  componentWillUnmount() {
+    this.viewerInst.destroy();
+  }
+
   render() {
     return <div ref={this.rootEl} />;
   }

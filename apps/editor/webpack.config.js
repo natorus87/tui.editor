@@ -138,6 +138,7 @@ module.exports = (env) => {
           },
           path: path.resolve(__dirname, minify ? 'dist/cdn' : 'dist'),
           filename: `toastui-[name]${minify ? '.min' : ''}.js`,
+          globalObject: 'this',
         },
         module: {
           rules: [

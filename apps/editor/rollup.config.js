@@ -27,6 +27,25 @@ function createBannerPlugin(type) {
   );
 }
 
+function moveDeclarationFiles() {
+  return {
+    name: 'moveDeclarationFiles',
+    writeBundle() {
+      const srcDir = 'dist/esm/i18n/i18n';
+      const destDir = 'dist/esm/i18n';
+
+      if (fs.existsSync(srcDir)) {
+        fs.readdirSync(srcDir).forEach((file) => {
+          if (file.endsWith('.d.ts')) {
+            fs.renameSync(`${srcDir}/${file}`, `${destDir}/${file}`);
+          }
+        });
+        fs.rmdirSync(srcDir);
+      }
+    },
+  };
+}
+
 export default [
   // editor
   {
@@ -36,7 +55,12 @@ export default [
       format: 'es',
       sourcemap: false,
     },
-    plugins: [typescript(), commonjs(), nodeResolve(), createBannerPlugin()],
+    plugins: [
+      typescript({ compilerOptions: { allowJs: false } }),
+      commonjs(),
+      nodeResolve(),
+      createBannerPlugin(),
+    ],
     external: [/^prosemirror/],
   },
   // viewer
@@ -47,7 +71,12 @@ export default [
       format: 'es',
       sourcemap: false,
     },
-    plugins: [typescript(), commonjs(), nodeResolve(), createBannerPlugin('viewer')],
+    plugins: [
+      typescript({ compilerOptions: { allowJs: false } }),
+      commonjs(),
+      nodeResolve(),
+      createBannerPlugin('viewer'),
+    ],
     external: [/^prosemirror/],
   },
   // i18n
@@ -60,11 +89,14 @@ export default [
     },
     external: ['@toast-ui/editor'],
     plugins: [
-      typescript(),
+      typescript({
+        compilerOptions: { allowJs: false, declaration: true, outDir: 'dist/esm/i18n' },
+      }),
       commonjs(),
       nodeResolve(),
       i18nEditorImportPath(),
       createBannerPlugin('i18n'),
+      moveDeclarationFiles(),
     ],
   },
 ];

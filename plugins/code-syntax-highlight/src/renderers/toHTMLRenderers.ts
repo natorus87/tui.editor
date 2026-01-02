@@ -4,6 +4,25 @@ import { PrismJs } from '@t/index';
 
 const BACKTICK_COUNT = 3;
 
+function escape(text: string) {
+  return text.replace(/[<>&"']/g, (c) => {
+    switch (c) {
+      case '<':
+        return '&lt;';
+      case '>':
+        return '&gt;';
+      case '&':
+        return '&amp;';
+      case '"':
+        return '&quot;';
+      case "'":
+        return '&#39;';
+      default:
+        return c;
+    }
+  });
+}
+
 export function getHTMLRenderers(prism: PrismJs) {
   return {
     codeBlock(node: MdNode): HTMLToken[] {
@@ -16,7 +35,7 @@ export function getHTMLRenderers(prism: PrismJs) {
         codeAttrs['data-backticks'] = fenceLength;
       }
 
-      let content = node.literal!;
+      let content = escape(node.literal!);
 
       if (infoWords.length && infoWords[0].length) {
         const [lang] = infoWords;

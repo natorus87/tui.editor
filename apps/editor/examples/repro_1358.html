@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bug #1358 Reproduction</title>
+    <link rel="stylesheet" href="./libs/toastui-editor/toastui-editor.min.css">
+    <style>
+        body {
+            margin: 20px;
+            font-family: sans-serif;
+        }
+
+        #editor-container {
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bug #1358 Reproduction</h1>
+    <p>Image title lost during MD -> WYSIWYG -> MD conversion.</p>
+    <div id="editor-container"></div>
+
+    <script src="./libs/toastui-editor/toastui-editor-all.min.js"></script>
+    <script>
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor-container'),
+            height: '500px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical'
+        });
+
+        // Initial markdown with image title
+        const initialMarkdown = '![alt text](https://via.placeholder.com/150 "Image Title")';
+
+        editor.setMarkdown(initialMarkdown);
+
+        window.editor = editor;
+    </script>
+</body>
+
+</html>

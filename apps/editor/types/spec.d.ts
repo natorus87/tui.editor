@@ -1,7 +1,6 @@
 import { Schema } from 'prosemirror-model';
-import { Transaction, Plugin } from 'prosemirror-state';
+import { Transaction, Plugin, Command } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { Command } from 'prosemirror-commands';
 import { ToastMark } from './toastmark';
 import { Emitter } from './event';
 

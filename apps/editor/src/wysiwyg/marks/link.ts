@@ -28,9 +28,13 @@ export class Link extends Mark {
         linkUrl: { default: '' },
         title: { default: null },
         rawHTML: { default: null },
+        target: { default: null },
+        rel: { default: null },
+        class: { default: null },
+        id: { default: null },
         ...getDefaultCustomAttrs(),
       },
-      inclusive: false,
+
       parseDOM: [
         {
           tag: 'a[href]',
@@ -40,11 +44,19 @@ export class Link extends Mark {
             const href = sanitizedDOM.getAttribute('href') || '';
             const title = sanitizedDOM.getAttribute('title') || '';
             const rawHTML = sanitizedDOM.getAttribute('data-raw-html');
+            const target = sanitizedDOM.getAttribute('target');
+            const rel = sanitizedDOM.getAttribute('rel');
+            const className = sanitizedDOM.getAttribute('class');
+            const id = sanitizedDOM.getAttribute('id');
 
             return {
               linkUrl: href,
               title,
               ...(rawHTML && { rawHTML }),
+              ...(target && { target }),
+              ...(rel && { rel }),
+              ...(className && { class: className }),
+              ...(id && { id }),
             };
           },
         },
@@ -52,9 +64,13 @@ export class Link extends Mark {
       toDOM: ({ attrs }: ProsemirrorMark): DOMOutputSpec => [
         attrs.rawHTML || 'a',
         {
-          href: escapeXml(attrs.linkUrl),
+          href: /^(vb|java)script:/.test(attrs.linkUrl) ? '#' : escapeXml(attrs.linkUrl),
           ...this.linkAttributes,
           ...getCustomAttrs(attrs),
+          ...(attrs.target && { target: attrs.target }),
+          ...(attrs.rel && { rel: attrs.rel }),
+          ...(attrs.class && { class: attrs.class }),
+          ...(attrs.id && { id: attrs.id }),
         },
       ],
     };
@@ -69,9 +85,10 @@ export class Link extends Mark {
       if (from && to && linkUrl) {
         const attrs = { linkUrl };
         const mark = schema.mark('link', attrs);
+        const selectedText = state.doc.textBetween(from, to);
 
-        if (empty && linkText) {
-          const node = createTextNode(schema, linkText, mark);
+        if (linkText && linkText !== selectedText) {
+          const node = createTextNode(schema, linkText, [mark]);
 
           tr.replaceRangeWith(from, to, node);
         } else {

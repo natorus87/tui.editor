@@ -1,5 +1,5 @@
 import { Node, Schema, ResolvedPos, Slice, ProsemirrorNode } from 'prosemirror-model';
-import { Selection, TextSelection } from 'prosemirror-state';
+import { Selection, TextSelection, NodeSelection } from 'prosemirror-state';
 
 import { findNodeBy } from '@/wysiwyg/helper/node';
 
@@ -90,6 +90,12 @@ export function getResolvedSelection(selection: Selection | CellSelection) {
       const anchor = $anchor.node(0).resolve($anchor.before(foundCell.depth));
 
       return { anchor, head: anchor };
+    }
+  } else if ((selection as NodeSelection).node) {
+    const { node, $anchor } = selection as NodeSelection;
+
+    if (node.type.name === 'tableHeadCell' || node.type.name === 'tableBodyCell') {
+      return { anchor: $anchor, head: $anchor };
     }
   }
 

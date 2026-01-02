@@ -5,10 +5,10 @@ import forEachOwnProperties from 'tui-code-snippet/collection/forEachOwnProperti
 
 import { LinkAttributeNames, LinkAttributes } from '@t/editor';
 
-export const isMac = /Mac/.test(navigator.platform);
+export const isMac = typeof navigator !== 'undefined' && /Mac/.test(navigator.platform);
 const reSpaceMoreThanOne = /[\u0020]+/g;
 const reEscapeChars = /[>(){}[\]+-.!#|]/g;
-const reEscapeHTML = /<([a-zA-Z_][a-zA-Z0-9\-._]*)(\s|[^\\>])*\/?>|<(\/)([a-zA-Z_][a-zA-Z0-9\-._]*)\s*\/?>|<!--[^-]+-->|<([a-zA-Z_][a-zA-Z0-9\-.:/]*)>/g;
+const reEscapeHTML = /<(?=[a-zA-Z_/!?])/g;
 const reEscapeBackSlash = /\\[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\\]/g;
 const reEscapePairedChars = /[*_~`]/g;
 const reMdImageSyntax = /!\[.*\]\(.*\)/g;
@@ -202,6 +202,10 @@ export function deepMergedCopy<T1 extends Record<string, any>, T2 extends Record
 
   if (targetObj && obj) {
     Object.keys(obj).forEach((prop: keyof T2) => {
+      if (prop === '__proto__' || prop === 'constructor' || prop === 'prototype') {
+        return;
+      }
+
       if (isObject(resultObj[prop])) {
         if (Array.isArray(obj[prop])) {
           resultObj[prop as keyof T1 & T2] = deepCopyArray(obj[prop]);
@@ -236,6 +240,10 @@ export function deepCopy<T extends Record<string, any>>(obj: T) {
   }
 
   return keys.reduce((acc, prop: keyof T) => {
+    if (prop === '__proto__' || prop === 'constructor' || prop === 'prototype') {
+      return acc;
+    }
+
     if (isObject(obj[prop])) {
       acc[prop] = Array.isArray(obj[prop]) ? deepCopyArray(obj[prop]) : deepCopy(obj[prop]);
     } else {
@@ -247,6 +255,10 @@ export function deepCopy<T extends Record<string, any>>(obj: T) {
 
 export function assign(targetObj: Record<string, any>, obj: Record<string, any> = {}) {
   Object.keys(obj).forEach((prop) => {
+    if (prop === '__proto__' || prop === 'constructor' || prop === 'prototype') {
+      return;
+    }
+
     if (targetObj.hasOwnProperty(prop) && typeof targetObj[prop] === 'object') {
       if (Array.isArray(obj[prop])) {
         targetObj[prop] = obj[prop];

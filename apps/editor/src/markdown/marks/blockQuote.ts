@@ -1,5 +1,5 @@
 import { DOMOutputSpec } from 'prosemirror-model';
-import { Command } from 'prosemirror-commands';
+import { Command } from 'prosemirror-state';
 import { EditorCommand } from '@t/spec';
 import { clsWithMdPrefix } from '@/utils/dom';
 import Mark from '@/spec/mark';

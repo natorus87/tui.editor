@@ -1,7 +1,9 @@
 import { EditorView, NodeView } from 'prosemirror-view';
+import { EditorState, Plugin, Transaction, Selection } from 'prosemirror-state';
 import { ProsemirrorNode, Slice, Fragment, Mark, Schema } from 'prosemirror-model';
 import isNumber from 'tui-code-snippet/type/isNumber';
 import toArray from 'tui-code-snippet/collection/toArray';
+import { inputRules } from 'prosemirror-inputrules';
 
 import EditorBase from '@/base';
 import { getWwCommands } from '@/commands/wwCommands';
@@ -21,12 +23,14 @@ import { CodeBlockView } from './nodeview/codeBlockView';
 import { changePastedHTML, changePastedSlice } from './clipboard/paste';
 import { pasteToTable } from './clipboard/pasteToTable';
 import { createSpecs } from './specCreator';
+import { clipboardTextParser } from './clipboard/pasteTextParser';
 
 import { Emitter } from '@t/event';
 import { ToDOMAdaptor } from '@t/convertor';
 import { HTMLSchemaMap, LinkAttributes, WidgetStyle } from '@t/editor';
 import { NodeViewPropMap, PluginProp } from '@t/plugin';
 import { createNodesWithWidget } from '@/widget/rules';
+import { createMarkdownInputRules } from '@/wysiwyg/markdownInputRules';
 import { widgetNodeView } from '@/widget/widgetNode';
 import { cls, removeProseMirrorHackNodes } from '@/utils/dom';
 import { includes } from '@/utils/common';
@@ -112,6 +116,7 @@ export default class WysiwygEditor extends EditorBase {
       tableContextMenu(this.eventEmitter),
       task(),
       toolbarStateHighlight(this.eventEmitter),
+      inputRules({ rules: createMarkdownInputRules(this.schema) }),
       ...this.createPluginProps(),
     ].concat(this.defaultPlugins);
   }
@@ -156,7 +161,27 @@ export default class WysiwygEditor extends EditorBase {
 
         this.view.updateState(state);
         this.emitChangeEvent(tr.scrollIntoView());
-        this.eventEmitter.emit('setFocusedNode', state.selection.$from.node(1));
+        const { from } = state.selection;
+        const { $from } = state.selection;
+        const { parent } = $from;
+        const offsetInParent = $from.parentOffset;
+
+        let targetNode = parent;
+        let offset = 0;
+
+        parent.forEach((child, childOffset) => {
+          if (childOffset <= offsetInParent && childOffset + child.nodeSize >= offsetInParent) {
+            targetNode = child;
+            offset = offsetInParent - childOffset;
+          }
+        });
+
+        // If we didn't find a child (e.g. empty paragraph), targetNode remains parent, offset is 0.
+        // But if empty paragraph, offsetInParent is 0. childOffset loop won't run/match?
+        // forEach runs over content. Empty content -> no run.
+        // So targetNode = parent. Correct.
+
+        this.eventEmitter.emit('setFocusedNode', targetNode, offset);
       },
       transformPastedHTML: changePastedHTML,
       transformPasted: (slice: Slice) =>
@@ -164,8 +189,14 @@ export default class WysiwygEditor extends EditorBase {
       handlePaste: (view: EditorView, _: ClipboardEvent, slice: Slice) => pasteToTable(view, slice),
       handleKeyDown: (_, ev) => {
         this.eventEmitter.emit('keydown', this.editorType, ev);
+
+        if (ev.defaultPrevented) {
+          return true;
+        }
+
         return false;
       },
+      clipboardTextParser,
       handleDOMEvents: {
         paste: (_, ev) => {
           const clipboardData =
@@ -173,19 +204,12 @@ export default class WysiwygEditor extends EditorBase {
           const items = clipboardData?.items;
 
           if (items) {
-            const containRtfItem = toArray(items).some(
-              (item) => item.kind === 'string' && item.type === 'text/rtf'
-            );
+            const imageBlob = pasteImageOnly(items);
 
-            // if it contains rtf, it's most likely copy paste from office -> no image
-            if (!containRtfItem) {
-              const imageBlob = pasteImageOnly(items);
-
-              if (imageBlob) {
-                ev.preventDefault();
-
-                emitImageBlobHook(this.eventEmitter, imageBlob, ev.type);
-              }
+            if (imageBlob) {
+              ev.preventDefault();
+              emitImageBlobHook(this.eventEmitter, imageBlob, ev.type);
+              return false;
             }
           }
           return false;
@@ -259,10 +283,15 @@ export default class WysiwygEditor extends EditorBase {
     return doc.textBetween(from, to, '\n');
   }
 
-  setModel(newDoc: ProsemirrorNode | [], cursorToEnd = false) {
+  setModel(newDoc: ProsemirrorNode | [], cursorToEnd = false, addToHistory = true) {
     const { tr, doc } = this.view.state;
+    const newTr = tr.replaceWith(0, doc.content.size, newDoc);
 
-    this.view.dispatch(tr.replaceWith(0, doc.content.size, newDoc));
+    if (!addToHistory) {
+      newTr.setMeta('addToHistory', false);
+    }
+
+    this.view.dispatch(newTr);
 
     if (cursorToEnd) {
       this.moveCursorToEnd(true);
@@ -270,10 +299,19 @@ export default class WysiwygEditor extends EditorBase {
   }
 
   setSelection(start: number, end = start) {
-    const { tr } = this.view.state;
-    const selection = createTextSelection(tr, start, end);
+    const { tr, doc } = this.view.state;
 
-    this.view.dispatch(tr.setSelection(selection).scrollIntoView());
+    if (start === end) {
+      const { size } = doc.content;
+      const pos = Math.min(start, size);
+      const selection = Selection.near(doc.resolve(pos));
+
+      this.view.dispatch(tr.setSelection(selection).scrollIntoView());
+    } else {
+      const selection = createTextSelection(tr, start, end);
+
+      this.view.dispatch(tr.setSelection(selection).scrollIntoView());
+    }
   }
 
   addWidget(node: Node, style: WidgetStyle, pos?: number) {

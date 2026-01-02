@@ -1,13 +1,32 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*.ts", "src/**/*.js", "types/**/*", "../../types/**/*"],
-  "exclude": ["node_modules"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js",
+    "types/**/*",
+    "../../types/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "compilerOptions": {
+    "target": "es2015",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@t/*": ["types/*"]
+      "@/*": [
+        "src/*"
+      ],
+      "@t/*": [
+        "types/*"
+      ],
+      "@t/index": [
+        "types/index.d.ts"
+      ]
     },
-    "lib": ["esnext", "dom", "dom.iterable"]
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable"
+    ]
   }
 }

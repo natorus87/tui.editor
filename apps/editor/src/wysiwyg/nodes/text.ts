@@ -1,4 +1,4 @@
-import { Command } from 'prosemirror-commands';
+import { Command } from 'prosemirror-state';
 
 import Node from '@/spec/node';
 import { isInListNode, isInTableNode } from '../helper/node';

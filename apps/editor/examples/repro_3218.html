@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="http://localhost:8082/apps/editor/dist/toastui-editor.css">
+    <script src="http://localhost:8082/apps/editor/dist/toastui-editor-all.js"></script>
+    <!-- Need to load es-es locale. In dist, it might be bundled or separate? -->
+    <!-- Check dist structure or load from CDN/local -->
+    <!-- Usually toastui-editor-all includes all? No, locales are often separate. -->
+    <script src="http://localhost:8082/apps/editor/dist/i18n/es-es.js"></script>
+</head>
+
+<body>
+    <div id="editor" style="width: 800px;"></div>
+    <script>
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            height: '500px',
+            language: 'es-ES',
+            initialValue: 'Test Spanish Layout'
+        });
+    </script>
+</body>
+
+</html>

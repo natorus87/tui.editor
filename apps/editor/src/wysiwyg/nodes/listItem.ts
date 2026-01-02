@@ -1,4 +1,4 @@
-import type { Command } from 'prosemirror-commands';
+import type { Command } from 'prosemirror-state';
 import type { ProsemirrorNode, DOMOutputSpec } from 'prosemirror-model';
 
 import NodeSchema from '@/spec/node';
@@ -70,6 +70,25 @@ export class ListItem extends NodeSchema {
       if (empty && !parent.childCount && listItemParent.type === listItem) {
         // move to previous sibling list item when the current list item is not top list item
         if ($from.index(-2) >= 1) {
+          // If the list item has children (nested list or other blocks), promote them
+          if (listItemParent.childCount > 1) {
+            const { firstChild } = listItemParent;
+
+            if (firstChild) {
+              // The rest of the content (nested list, code block, etc.)
+              const restContent = listItemParent.content.cut(firstChild.nodeSize);
+
+              // Insert siblings AFTER the current list item
+              tr.insert($from.after(-1), restContent);
+
+              // Delete the current list item (which now effectively contains only the empty paragraph)
+              tr.delete($from.start(-1) - 1, $from.end(-1));
+
+              dispatch!(tr);
+              return true;
+            }
+          }
+
           // should subtract '1' for considering tag length(<li>)
           tr.delete($from.start(-1) - 1, $from.end(-1));
           dispatch!(tr);

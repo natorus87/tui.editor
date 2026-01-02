@@ -104,18 +104,11 @@ export default class MdEditor extends EditorBase {
       const items = clipboardData && clipboardData.items;
 
       if (items) {
-        const containRtfItem = toArray(items).some(
-          (item) => item.kind === 'string' && item.type === 'text/rtf'
-        );
+        const imageBlob = pasteImageOnly(items);
 
-        // if it contains rtf, it's most likely copy paste from office -> no image
-        if (!containRtfItem) {
-          const imageBlob = pasteImageOnly(items);
-
-          if (imageBlob) {
-            ev.preventDefault();
-            emitImageBlobHook(this.eventEmitter, imageBlob, ev.type);
-          }
+        if (imageBlob) {
+          ev.preventDefault();
+          emitImageBlobHook(this.eventEmitter, imageBlob, ev.type);
         }
       }
     });
@@ -190,6 +183,11 @@ export default class MdEditor extends EditorBase {
           this.clipboard.focus();
         }
         this.eventEmitter.emit('keydown', this.editorType, ev);
+
+        if (ev.defaultPrevented) {
+          return true;
+        }
+
         return false;
       },
       handleDOMEvents: {
@@ -337,14 +335,19 @@ export default class MdEditor extends EditorBase {
     return getEditorToMdPos(this.view.state.tr.doc, from, to);
   }
 
-  setMarkdown(markdown: string, cursorToEnd = true) {
-    const lineTexts = markdown.split(reLineEnding);
+  setMarkdown(markdown: string, cursorToEnd = true, addToHistory = true) {
+    const lineTexts = (markdown || '').split(reLineEnding);
     const { tr, doc, schema } = this.view.state;
     const nodes = lineTexts.map((lineText) =>
       createParagraph(schema, createNodesWithWidget(lineText, schema))
     );
+    const newTr = tr.replaceWith(0, doc.content.size, nodes);
 
-    this.view.dispatch(tr.replaceWith(0, doc.content.size, nodes));
+    if (!addToHistory) {
+      newTr.setMeta('addToHistory', false);
+    }
+
+    this.view.dispatch(newTr);
 
     if (cursorToEnd) {
       this.moveCursorToEnd(true);

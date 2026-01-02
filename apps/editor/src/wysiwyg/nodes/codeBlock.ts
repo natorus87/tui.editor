@@ -1,5 +1,6 @@
 import { ProsemirrorNode, DOMOutputSpec } from 'prosemirror-model';
-import { setBlockType, Command } from 'prosemirror-commands';
+import { setBlockType } from 'prosemirror-commands';
+import { Command } from 'prosemirror-state';
 
 import { addParagraph } from '@/helper/manipulation';
 import { between, last } from '@/utils/common';

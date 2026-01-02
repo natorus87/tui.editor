@@ -23,6 +23,8 @@ export default class Convertor {
 
   private mappedPosWhenConverting: number | MdPos | null;
 
+  private focusedOffset: number;
+
   constructor(
     schema: Schema,
     toMdConvertors: ToMdConvertorMap,
@@ -32,14 +34,15 @@ export default class Convertor {
     this.schema = schema;
     this.eventEmitter = eventEmitter;
     this.focusedNode = null;
+    this.focusedOffset = 0;
     this.mappedPosWhenConverting = null;
     this.toWwConvertors = createWwConvertors(toHTMLConvertors);
     this.toMdConvertors = createMdConvertors(toMdConvertors || {});
 
-    this.eventEmitter.listen(
-      'setFocusedNode',
-      (node: ProsemirrorNode | MdNode) => (this.focusedNode = node)
-    );
+    this.eventEmitter.listen('setFocusedNode', (node: ProsemirrorNode | MdNode, offset = 0) => {
+      this.focusedNode = node;
+      this.focusedOffset = offset;
+    });
   }
 
   getMappedPos() {
@@ -51,7 +54,7 @@ export default class Convertor {
   };
 
   private getInfoForPosSync() {
-    return { node: this.focusedNode, setMappedPos: this.setMappedPos };
+    return { node: this.focusedNode, setMappedPos: this.setMappedPos, offset: this.focusedOffset };
   }
 
   toWysiwygModel(mdNode: MdNode) {

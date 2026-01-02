@@ -7,16 +7,23 @@
 */
 .ProseMirror {
   font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', '나눔바른고딕',
-    'Nanum Barun Gothic', '맑은고딕', 'Malgun Gothic', sans-serif;
+    'Nanum Barun Gothic', '맑은고딕', sans-serif;
   color: #222;
   font-size: 13px;
   overflow-y: auto;
-  overflow-X: hidden;
+  overflow-x: hidden;
   height: calc(100% - 36px);
 }
 
 .ProseMirror .placeholder {
+  position: relative;
+}
+
+.ProseMirror .placeholder::before {
+  content: attr(data-placeholder);
   color: #999;
+  position: absolute;
+  pointer-events: none;
 }
 
 .ProseMirror:focus {
@@ -42,7 +49,7 @@ table.ProseMirror-selectednode {
   padding: 0;
   font-size: 13px;
   font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', '나눔바른고딕',
-    'Nanum Barun Gothic', '맑은고딕', 'Malgun Gothic', sans-serif;
+    'Nanum Barun Gothic', '맑은고딕', sans-serif;
   z-index: 20;
 }
 
@@ -69,8 +76,8 @@ table.ProseMirror-selectednode {
   color: #222;
 }
 
-.toastui-editor-contents > h1:first-of-type,
-.toastui-editor-contents > div > div:first-of-type h1 {
+.toastui-editor-contents>h1:first-of-type,
+.toastui-editor-contents>div>div:first-of-type h1 {
   margin-top: 14px;
 }
 
@@ -146,18 +153,18 @@ table.ProseMirror-selectednode {
   color: #999;
 }
 
-.toastui-editor-contents blockquote > :first-child {
+.toastui-editor-contents blockquote> :first-child {
   margin-top: 0;
 }
 
-.toastui-editor-contents blockquote > :last-child {
+.toastui-editor-contents blockquote> :last-child {
   margin-bottom: 0;
 }
 
 .toastui-editor-contents pre,
 .toastui-editor-contents code {
   font-family: Consolas, Courier, 'Apple SD 산돌고딕 Neo', -apple-system, 'Lucida Grande',
-    'Apple SD Gothic Neo', '맑은 고딕', 'Malgun Gothic', 'Segoe UI', '돋움', dotum, sans-serif;
+    'Apple SD Gothic Neo', '맑은 고딕', 'Segoe UI', '돋움', dotum, sans-serif;
   border: 0;
   border-radius: 0;
 }
@@ -247,17 +254,17 @@ table.ProseMirror-selectednode {
   counter-reset: li;
 }
 
-.toastui-editor-contents ol > li {
+.toastui-editor-contents ol>li {
   counter-increment: li;
 }
 
-.toastui-editor-contents ul > li::before,
-.toastui-editor-contents ol > li::before {
+.toastui-editor-contents ul>li::before,
+.toastui-editor-contents ol>li::before {
   display: inline-block;
   position: absolute;
 }
 
-.toastui-editor-contents ul > li::before {
+.toastui-editor-contents ul>li::before {
   content: '';
   margin-top: 6px;
   margin-left: -17px;
@@ -267,7 +274,7 @@ table.ProseMirror-selectednode {
   background-color: #ccc;
 }
 
-.toastui-editor-contents ol > li::before {
+.toastui-editor-contents ol>li::before {
   content: '.' counter(li);
   margin-left: -28px;
   width: 24px;
@@ -388,8 +395,7 @@ table.ProseMirror-selectednode {
   margin-left: 8px;
   padding: 3px;
   border: solid 1px #cccccc;
-  background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjIuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IuugiOydtOyWtF8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiCgkgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMzAgMzAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMwIDMwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGwtcnVsZTpldmVub2RkO2NsaXAtcnVsZTpldmVub2RkO2ZpbGw6IzU1NTU1NTt9Cjwvc3R5bGU+CjxnPgoJPGc+CgkJPGc+CgkJCTxnPgoJCQkJPGc+CgkJCQkJPHBhdGggY2xhc3M9InN0MCIgZD0iTTE1LjUsMTIuNWwyLDJMMTIsMjBoLTJ2LTJMMTUuNSwxMi41eiBNMTgsMTBsMiwybC0xLjUsMS41bC0yLTJMMTgsMTB6Ii8+CgkJCQk8L2c+CgkJCTwvZz4KCQk8L2c+Cgk8L2c+CjwvZz4KPC9zdmc+Cg==')
-    no-repeat;
+  background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjIuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IuugiOydtOyWtF8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiCgkgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMzAgMzAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMwIDMwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGwtcnVsZTpldmVub2RkO2NsaXAtcnVsZTpldmVub2RkO2ZpbGw6IzU1NTU1NTt9Cjwvc3R5bGU+CjxnPgoJPGc+CgkJPGc+CgkJCTxnPgoJCQkJPGc+CgkJCQkJPHBhdGggY2xhc3M9InN0MCIgZD0iTTE1LjUsMTIuNWwyLDJMMTIsMjBoLTJ2LTJMMTUuNSwxMi41eiBNMTgsMTBsMiwybC0xLjUsMS41bC0yLTJMMTgsMTB6Ii8+CgkJCQk8L2c+CgkJCTwvZz4KCQk8L2c+Cgk8L2c+CjwvZz4KPC9zdmc+Cg==') no-repeat;
   background-position: center;
   background-size: 30px 30px;
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bug #2076 Reproduction (Word Paste)</title>
+    <link rel="stylesheet" href="./libs/toastui-editor/toastui-editor.min.css">
+    <style>
+        body {
+            margin: 20px;
+            font-family: sans-serif;
+        }
+
+        #editor-container {
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bug #2076 Reproduction</h1>
+    <p>Simulating Word paste and simulated round trip.</p>
+    <div id="editor-container"></div>
+
+    <script src="./libs/toastui-editor/toastui-editor-all.min.js"></script>
+    <script>
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor-container'),
+            height: '500px',
+            initialEditType: 'wysiwyg',
+            previewStyle: 'vertical'
+        });
+
+        // Sample HTML resembling Word output (with inline styles and mso tags)
+        // Common issue: font-family, colors, and complex structures.
+        const wordContent = `
+      <p class=MsoNormal style='margin-bottom:0in;line-height:normal'>
+        <b><span style='font-size:12.0pt;font-family:"Arial",sans-serif;color:red'>Bold Red Text From Word</span></b>
+      </p>
+      <p class=MsoNormal style='margin-bottom:0in;line-height:normal'>
+        <span style='font-size:12.0pt;font-family:"Arial",sans-serif'>Normal Text</span>
+      </p>
+      <ul>
+        <li><span style='mso-list:Ignore'>List Item 1</span></li>
+        <li><span style='mso-list:Ignore'>List Item 2</span></li>
+      </ul>
+    `;
+
+        // Simulate paste or setHTML
+        // editor.exec('HTML', wordContent); // If using exec command
+        editor.setHTML(wordContent);
+
+        // Helpers for manual testing
+        window.editor = editor;
+        window.getHTML = () => editor.getHTML();
+        window.getMarkdown = () => editor.getMarkdown();
+    </script>
+</body>
+
+</html>

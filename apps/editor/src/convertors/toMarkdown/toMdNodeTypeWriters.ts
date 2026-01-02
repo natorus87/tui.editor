@@ -69,6 +69,15 @@ export const nodeTypeWriters: ToMdNodeTypeWriterMap = {
     }
   },
 
+  hardBreak(state) {
+    state.write('  \n');
+  },
+
+  // @ts-ignore
+  hard_break(state) {
+    state.write('  \n');
+  },
+
   paragraph(state, { node, parent, index = 0 }) {
     if (state.stopNewline) {
       state.convertInline(node);
@@ -82,16 +91,22 @@ export const nodeTypeWriters: ToMdNodeTypeWriterMap = {
 
       if (emptyNode && prevEmptyNode) {
         state.write('<br>\n');
-      } else if (emptyNode && !prevEmptyNode && !firstChildNode) {
-        if (parent?.type.name === 'listItem') {
+      } else if (emptyNode && !prevEmptyNode) {
+        // Empty paragraph after non-empty content
+        if (parent?.type.name === 'listItem' && !firstChildNode) {
           const prevDelim = state.getDelim();
 
           state.setDelim('');
           state.write('<br>');
 
           state.setDelim(prevDelim);
+          state.write('\n');
+        } else if (firstChildNode) {
+          // First empty paragraph in document - should also write <br>
+          state.write('<br>\n');
+        } else {
+          state.write('\n');
         }
-        state.write('\n');
       } else {
         state.convertInline(node);
 
@@ -165,7 +180,9 @@ export const nodeTypeWriters: ToMdNodeTypeWriterMap = {
   },
 
   image(state, _, { attrs }) {
-    state.write(`![${attrs?.altText}](${attrs?.imageUrl})`);
+    const title = attrs?.title ? ` "${attrs.title}"` : '';
+
+    state.write(`![${attrs?.altText}](${attrs?.imageUrl}${title})`);
   },
 
   thematicBreak(state, { node }, { delim }) {

@@ -1,5 +1,5 @@
 import { Schema } from 'prosemirror-model';
-import { EditorState, Plugin, Transaction } from 'prosemirror-state';
+import { EditorState, Plugin, Transaction, Selection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { keymap } from 'prosemirror-keymap';
 import { baseKeymap } from 'prosemirror-commands';
@@ -185,19 +185,19 @@ export default abstract class EditorBase implements Base {
   }
 
   moveCursorToStart(focus: boolean) {
-    const { tr } = this.view.state;
+    const { tr, doc } = this.view.state;
 
-    this.view.dispatch(tr.setSelection(createTextSelection(tr, 1)).scrollIntoView());
+    this.view.dispatch(tr.setSelection(Selection.near(doc.resolve(0), 1)).scrollIntoView());
     if (focus) {
       this.focus();
     }
   }
 
   moveCursorToEnd(focus: boolean) {
-    const { tr } = this.view.state;
+    const { tr, doc } = this.view.state;
 
     this.view.dispatch(
-      tr.setSelection(createTextSelection(tr, tr.doc.content.size - 1)).scrollIntoView()
+      tr.setSelection(Selection.near(doc.resolve(doc.content.size), -1)).scrollIntoView()
     );
 
     if (focus) {

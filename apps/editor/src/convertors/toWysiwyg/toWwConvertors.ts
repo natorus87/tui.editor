@@ -20,6 +20,7 @@ import {
   htmlToWwConvertors,
   getTextWithoutTrailingNewline,
   isInlineNode,
+  isCustomInline,
   isCustomHTMLInlineNode,
 } from './htmlToWwConvertors';
 
@@ -92,10 +93,11 @@ const toWwConvertors: ToWwConvertorMap = {
   list(state, node, { entering }, customAttrs) {
     if (entering) {
       const { bulletList, orderedList } = state.schema.nodes;
-      const { type, start } = (node as ListItemMdNode).listData;
+      const { listData } = node as ListItemMdNode;
+      const { type, start, bulletChar } = listData;
 
       if (type === 'bullet') {
-        state.openNode(bulletList, customAttrs);
+        state.openNode(bulletList, { bullet: bulletChar, ...customAttrs });
       } else {
         state.openNode(orderedList, { order: start, ...customAttrs });
       }
@@ -131,7 +133,7 @@ const toWwConvertors: ToWwConvertorMap = {
 
   image(state, node, { entering, skipChildren }, customAttrs) {
     const { image } = state.schema.nodes;
-    const { destination, firstChild } = node as LinkMdNode;
+    const { destination, firstChild, title } = node as LinkMdNode;
 
     if (entering && skipChildren) {
       skipChildren();
@@ -140,6 +142,7 @@ const toWwConvertors: ToWwConvertorMap = {
     state.addNode(image, {
       imageUrl: destination,
       ...(firstChild && { altText: firstChild.literal }),
+      ...(title && { title }),
       ...customAttrs,
     });
   },
@@ -199,6 +202,14 @@ const toWwConvertors: ToWwConvertorMap = {
     }
   },
 
+  linebreak(state) {
+    const { hardBreak } = state.schema.nodes;
+
+    if (hardBreak) {
+      state.addNode(hardBreak);
+    }
+  },
+
   // GFM specifications node
   table(state, _, { entering }, customAttrs) {
     if (entering) {
@@ -235,7 +246,10 @@ const toWwConvertors: ToWwConvertorMap = {
   tableCell(state, node, { entering }) {
     if (!(node as TableCellMdNode).ignored) {
       const hasParaNode = (childNode: MdNode | null) =>
-        childNode && (isInlineNode(childNode) || isCustomHTMLInlineNode(state, childNode));
+        childNode &&
+        (isInlineNode(childNode) ||
+          isCustomInline(childNode) ||
+          isCustomHTMLInlineNode(state, childNode));
 
       if (entering) {
         const { tableHeadCell, tableBodyCell, paragraph } = state.schema.nodes;
@@ -304,7 +318,13 @@ const toWwConvertors: ToWwConvertorMap = {
 
   htmlInline(state, node) {
     const html = node.literal!;
-    const matched = html.match(reHTMLTag)!;
+    const matched = html.match(reHTMLTag);
+
+    if (!matched) {
+      state.addText(html);
+      return;
+    }
+
     const [, openTagName, , closeTagName] = matched;
     const typeName = (openTagName || closeTagName).toLowerCase();
     const markType = state.schema.marks[typeName];
@@ -331,14 +351,26 @@ const toWwConvertors: ToWwConvertorMap = {
   htmlBlock(state, node) {
     const html = node.literal!;
     const container = document.createElement('div');
-    const isHTMLComment = reHTMLComment.test(html);
+    const isHTMLComment = reHTMLComment.test(html) || html.trim().startsWith('<!--');
 
     if (isHTMLComment) {
       state.openNode(state.schema.nodes.htmlComment);
       state.addText(node.literal!);
       state.closeNode();
     } else {
-      const matched = html.match(reHTMLTag)!;
+      let matched = html.match(reHTMLTag);
+
+      if (!matched) {
+        matched = html.trim().match(reHTMLTag);
+      }
+
+      if (!matched) {
+        state.openNode(state.schema.nodes.paragraph);
+        state.addText(html);
+        state.closeNode();
+        return;
+      }
+
       const [, openTagName, , closeTagName] = matched;
 
       const typeName = (openTagName || closeTagName).toLowerCase();

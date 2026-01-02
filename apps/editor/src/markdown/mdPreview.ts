@@ -221,8 +221,24 @@ class MarkdownPreview {
           el = nextEl;
         }
         if (el?.parentNode) {
+          const nextEl = el.nextSibling;
+
           removeNode(el);
           removeOffsetInfoByNode(el);
+
+          let current = nextEl;
+
+          while (
+            current &&
+            (current.nodeType === Node.TEXT_NODE ||
+              (current.nodeType === Node.ELEMENT_NODE &&
+                !(current as HTMLElement).hasAttribute('data-nodeid')))
+          ) {
+            const next = current.nextSibling;
+
+            removeNode(current);
+            current = next;
+          }
         }
       }
     }
