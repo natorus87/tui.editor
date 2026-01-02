@@ -5,7 +5,7 @@ import {
   LIST_CLASS_NAME,
 } from '@/nodeViews/languageSelectBox';
 import { cls } from '@/utils/dom';
-import type { Emitter } from '@toast-ui/editor';
+import type { Emitter } from '@licium/editor';
 
 Element.prototype.scrollIntoView = jest.fn();
 

@@ -1,4 +1,4 @@
-import type { PluginContext, PluginInfo } from '@toast-ui/editor';
+import type { PluginContext, PluginInfo } from '@licium/editor';
 
 export interface PluginOptions {
   rendererURL?: string;

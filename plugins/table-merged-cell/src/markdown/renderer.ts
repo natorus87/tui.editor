@@ -1,5 +1,5 @@
-import type { CustomHTMLRenderer } from '@toast-ui/editor';
-import type { OpenTagToken } from '@toast-ui/toastmark';
+import type { CustomHTMLRenderer } from '@licium/editor';
+import type { OpenTagToken } from '@licium/toastmark';
 import { MergedTableCellMdNode, MergedTableRowMdNode } from '@t/index';
 
 export const toHTMLRenderers: CustomHTMLRenderer = {

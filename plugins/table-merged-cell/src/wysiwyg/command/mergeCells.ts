@@ -1,5 +1,5 @@
 import type { Transaction } from 'prosemirror-state';
-import type { PluginContext } from '@toast-ui/editor';
+import type { PluginContext } from '@licium/editor';
 import type { TableOffsetMapFactory, TableOffsetMap, CommandFn } from '@t/index';
 import type { Fragment, Node } from 'prosemirror-model';
 import {

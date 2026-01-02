@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import ToastuiEditor from '@toast-ui/editor';
-import ToastuiEditorViewer from '@toast-ui/editor/dist/toastui-editor-viewer';
+import ToastuiEditor from '@licium/editor';
+import ToastuiEditorViewer from '@licium/editor/dist/toastui-editor-viewer';
 
 type FunctionKeys<T extends object> = {
   [K in keyof T]: T[K] extends Function ? K : never;

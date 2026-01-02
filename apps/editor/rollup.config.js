@@ -9,7 +9,7 @@ function i18nEditorImportPath() {
   return {
     name: 'i18nEditorImportPath',
     transform(code) {
-      return code.replace('../editorCore', '@toast-ui/editor');
+      return code.replace('../editorCore', '@licium/editor');
     },
   };
 }
@@ -19,7 +19,7 @@ const fileNames = fs.readdirSync('./src/i18n');
 function createBannerPlugin(type) {
   return banner(
     [
-      `@toast-ui/editor${type ? ` : ${type}` : ''}`,
+      `@licium/editor${type ? ` : ${type}` : ''}`,
       `@version ${version} | ${new Date().toDateString()}`,
       `@author ${author}`,
       `@license ${license}`,
@@ -87,7 +87,7 @@ export default [
       format: 'es',
       sourcemap: false,
     },
-    external: ['@toast-ui/editor'],
+    external: ['@licium/editor'],
     plugins: [
       typescript({
         compilerOptions: { allowJs: false, declaration: true, outDir: 'dist/esm/i18n' },

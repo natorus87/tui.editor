@@ -368,8 +368,8 @@ function createNodeTypeConvertors(convertors: ToMdConvertorMap) {
         const convertor = convertors[type];
         const params = convertor
           ? convertor(nodeInfo as NodeInfo, {
-            inTable: state.inTable,
-          })
+              inTable: state.inTable,
+            })
           : {};
 
         write(type, { state, nodeInfo, params });

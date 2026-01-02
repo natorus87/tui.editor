@@ -1,5 +1,5 @@
 import React from 'react';
-import Editor, { EventMap } from '@toast-ui/editor';
+import Editor, { EventMap } from '@licium/editor';
 import type { EditorProps, EventNames } from '../index';
 
 export default class extends React.Component<EditorProps> {

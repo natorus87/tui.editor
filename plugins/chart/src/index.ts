@@ -18,7 +18,7 @@
  * y.title: Month              => yAxis.title
  * $$
  */
-import type { PluginInfo, MdNode, PluginContext } from '@toast-ui/editor';
+import type { PluginInfo, MdNode, PluginContext } from '@licium/editor';
 import Chart, {
   BaseOptions,
   LineChart,
@@ -155,12 +155,12 @@ export function parseToChartData(text: string, delimiter?: string | RegExp) {
   const series = tdsv.map((data, i) =>
     hasLegends
       ? {
-        name: legends[i],
-        data,
-      }
+          name: legends[i],
+          data,
+        }
       : {
-        data,
-      }
+          data,
+        }
   );
 
   return { categories, series };
@@ -315,10 +315,13 @@ function renderChart(
           const toastuiChart = chart[chartType];
 
           if (chartType === 'pie') {
-            const series = data.series.map(({ name, data: seriesData }) => ({
-              name,
-              data: seriesData[0],
-            }));
+            const series = data.series.map(({ name, data: seriesData }) => {
+              return {
+                name,
+                data: seriesData[0],
+              };
+            });
+
             // @ts-ignore
             data.series = series;
           }
@@ -337,8 +340,6 @@ function renderChart(
 function generateId() {
   return `chart-${Math.random().toString(36).substr(2, 10)}`;
 }
-
-
 
 /**
  * Chart plugin

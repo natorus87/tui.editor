@@ -18,13 +18,13 @@ module.exports = {
     },
   },
   externals: {
-    '@toast-ui/editor': {
-      commonjs: '@toast-ui/editor',
-      commonjs2: '@toast-ui/editor',
+    '@licium/editor': {
+      commonjs: '@licium/editor',
+      commonjs2: '@licium/editor',
     },
-    '@toast-ui/editor/dist/toastui-editor-viewer': {
-      commonjs: '@toast-ui/editor/dist/toastui-editor-viewer',
-      commonjs2: '@toast-ui/editor/dist/toastui-editor-viewer',
+    '@licium/editor/dist/toastui-editor-viewer': {
+      commonjs: '@licium/editor/dist/toastui-editor-viewer',
+      commonjs2: '@licium/editor/dist/toastui-editor-viewer',
     },
   },
   module: {

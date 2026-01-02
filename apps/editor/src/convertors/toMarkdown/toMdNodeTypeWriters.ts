@@ -74,6 +74,7 @@ export const nodeTypeWriters: ToMdNodeTypeWriterMap = {
   },
 
   // @ts-ignore
+  // eslint-disable-next-line camelcase
   hard_break(state) {
     state.write('  \n');
   },

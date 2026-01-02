@@ -20,6 +20,6 @@ export default [
       sourcemap: false,
     },
     plugins: [typescript(), commonjs(), nodeResolve(), banner(bannerText)],
-    external: ['react', '@toast-ui/editor', '@toast-ui/editor/dist/toastui-editor-viewer'],
+    external: ['react', '@licium/editor', '@licium/editor/dist/toastui-editor-viewer'],
   },
 ];

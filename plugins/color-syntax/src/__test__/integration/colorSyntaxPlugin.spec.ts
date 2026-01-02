@@ -1,4 +1,4 @@
-import Editor from '@toast-ui/editor';
+import Editor from '@licium/editor';
 import colorPicker from 'tui-color-picker';
 import { oneLineTrim } from 'common-tags';
 import colorSyntaxPlugin from '@/index';

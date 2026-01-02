@@ -1,6 +1,6 @@
 import { DOMOutputSpec } from 'prosemirror-model';
 import { Command, Transaction } from 'prosemirror-state';
-import { TableCellMdNode, MdNode, MdPos } from '@toast-ui/toastmark';
+import { TableCellMdNode, MdNode, MdPos } from '@licium/toastmark';
 import { EditorCommand, MdSpecContext } from '@t/spec';
 import { TableRowMdNode } from '@t/markdown';
 import { clsWithMdPrefix } from '@/utils/dom';

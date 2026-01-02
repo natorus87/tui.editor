@@ -1,4 +1,4 @@
-import { MdNode, MdPos } from '@toast-ui/toastmark';
+import { MdNode, MdPos } from '@licium/toastmark';
 import { Plugin } from 'prosemirror-state';
 import { MdContext } from '@t/spec';
 import { ToolbarStateMap, ToolbarStateKeys } from '@t/ui';
@@ -114,8 +114,7 @@ export function previewHighlight({ toastMark, eventEmitter }: MdContext) {
           let offset = 0;
 
           if (mdNode.sourcepos) {
-            const nodeStartLine = mdNode.sourcepos[0][0];
-            const nodeStartCh = mdNode.sourcepos[0][1];
+            const [[nodeStartLine, nodeStartCh]] = mdNode.sourcepos;
 
             if (line === nodeStartLine) {
               offset = ch - nodeStartCh + 1;

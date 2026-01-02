@@ -1,6 +1,6 @@
 import { DOMOutputSpec, Mark as ProsemirrorMark } from 'prosemirror-model';
 import { Transaction, Command } from 'prosemirror-state';
-import { ListItemMdNode, MdNode } from '@toast-ui/toastmark';
+import { ListItemMdNode, MdNode } from '@licium/toastmark';
 import { EditorCommand, MdSpecContext } from '@t/spec';
 import { clsWithMdPrefix } from '@/utils/dom';
 import Mark from '@/spec/mark';

@@ -6,7 +6,7 @@ import addClass from 'tui-code-snippet/domUtil/addClass';
 
 import { cls } from '@/utils/dom';
 import { LanguageSelectBox } from '@/nodeViews/languageSelectBox';
-import type { Emitter } from '@toast-ui/editor';
+import type { Emitter } from '@licium/editor';
 
 type GetPos = (() => number) | boolean;
 

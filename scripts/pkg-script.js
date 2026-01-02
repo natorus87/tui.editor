@@ -9,15 +9,15 @@ const optionDefinitions = [
 const options = commandLineArgs(optionDefinitions);
 
 const pkgMap = {
-  editor: '@toast-ui/editor',
-  react: '@toast-ui/react-editor',
-  vue: '@toast-ui/vue-editor',
-  toastmark: '@toast-ui/toastmark',
-  chart: '@toast-ui/editor-plugin-chart',
-  color: '@toast-ui/editor-plugin-color-syntax',
-  code: '@toast-ui/editor-plugin-code-syntax-highlight',
-  table: '@toast-ui/editor-plugin-table-merged-cell',
-  uml: '@toast-ui/editor-plugin-uml',
+  editor: '@licium/editor',
+  react: '@licium/react-editor',
+  vue: '@licium/vue-editor',
+  toastmark: '@licium/toastmark',
+  chart: '@licium/editor-plugin-chart',
+  color: '@licium/editor-plugin-color-syntax',
+  code: '@licium/editor-plugin-code-syntax-highlight',
+  table: '@licium/editor-plugin-table-merged-cell',
+  uml: '@licium/editor-plugin-uml',
 };
 
 const pathMap = {
