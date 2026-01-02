@@ -59,3 +59,11 @@ karma.conf.local.js
 .\#*
 .vscode/
 dist/
+.npmrc
+DEVELOPMENT.md
+FORK_README.md
+FORK_INSTRUCTIONS.md
+files_to_commit.txt
+files_to_replace.txt
+TODO.md
+lerna.json
