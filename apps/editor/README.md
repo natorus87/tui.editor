@@ -1,6 +1,9 @@
+> This is a fork of the [Toast UI Editor](https://github.com/natorus87/tui.editor) maintained by `@licium`.
+> Original repository: https://github.com/natorus87/tui.editor
+
 # ![TOAST UI Editor](https://uicdn.toast.com/toastui/img/tui-editor-bi.png)
 
-[![npm](https://img.shields.io/npm/v/@toast-ui/editor.svg)](https://www.npmjs.com/package/@toast-ui/editor)
+[![npm](https://img.shields.io/npm/v/@licium/editor.svg)](https://www.npmjs.com/package/@licium/editor)
 
 ## 🚩 Table of Contents
 
@@ -27,13 +30,13 @@ const editor = new Editor(options);
 
 ## 📙 Documents
 
-- [Getting Started](https://github.com/nhn/tui.editor/blob/master/docs/en/getting-started.md)
+- [Getting Started](https://github.com/natorus87/tui.editor/blob/master/docs/en/getting-started.md)
 - [APIs](https://nhn.github.io/tui.editor/latest/)
 - v3.0 Migration Guide
-  - [English](https://github.com/nhn/tui.editor/blob/master/docs/v3.0-migration-guide.md)
-  - [한국어](https://github.com/nhn/tui.editor/blob/master/docs/v3.0-migration-guide-ko.md)
+  - [English](https://github.com/natorus87/tui.editor/blob/master/docs/v3.0-migration-guide.md)
+  - [한국어](https://github.com/natorus87/tui.editor/blob/master/docs/v3.0-migration-guide-ko.md)
 
-You can also see the older versions of API page on the [releases page](https://github.com/nhn/tui.editor/releases).
+You can also see the older versions of API page on the [releases page](https://github.com/natorus87/tui.editor/releases).
 
 ## 💾 Install
 
@@ -46,8 +49,8 @@ TOAST UI products are registered in two package managers, [npm](https://www.npmj
 #### npm
 
 ```sh
-$ npm install --save @toast-ui/editor # Latest Version
-$ npm install --save @toast-ui/editor@<version> # Specific Version
+$ npm install --save @licium/editor # Latest Version
+$ npm install --save @licium/editor@<version> # Specific Version
 ```
 
 ### Via Contents Delivery Network (CDN)
@@ -111,13 +114,13 @@ The editor can be used by creating an instance with the constructor function. To
 - ES6 Modules
 
 ```javascript
-import Editor from '@toast-ui/editor';
+import Editor from '@licium/editor';
 ```
 
 - CommonJS
 
 ```javascript
-const Editor = require('@toast-ui/editor');
+const Editor = require('@licium/editor');
 ```
 
 ### Using Namespace in Browser Environment
@@ -131,7 +134,7 @@ Then, you need to add the CSS files needed for the Editor. Import CSS files in n
 ### Using in Node Environment
 
 ```javascript
-import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
+import '@licium/editor/dist/toastui-editor.css'; // Editor's Style
 ```
 
 ### Using in Browser Environment by CDN
@@ -171,6 +174,6 @@ Find out more options [here](https://nhn.github.io/tui.editor/latest/ToastUIEdit
 
 ## 🦄 Tutorials
 
-- [Viewer](https://github.com/nhn/tui.editor/blob/master/docs/en/viewer.md)
-- [Plugins](https://github.com/nhn/tui.editor/blob/master/docs/en/plugin.md)
-- [Internationalization (i18n)](https://github.com/nhn/tui.editor/blob/master/docs/en/i18n.md)
+- [Viewer](https://github.com/natorus87/tui.editor/blob/master/docs/en/viewer.md)
+- [Plugins](https://github.com/natorus87/tui.editor/blob/master/docs/en/plugin.md)
+- [Internationalization (i18n)](https://github.com/natorus87/tui.editor/blob/master/docs/en/i18n.md)

@@ -4,14 +4,16 @@
 <head>
     <meta charset="UTF-8" />
     <title>Toast UI Editor Text Align Plugin Demo</title>
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/theme/toastui-editor-dark.min.css" />
+    <!-- CORE EDITOR (Local Build) -->
+    <link rel="stylesheet" href="../../apps/editor/dist/toastui-editor.css" />
+    <link rel="stylesheet" href="../../apps/editor/dist/theme/toastui-editor-dark.css" />
     <link rel="stylesheet" href="./dist/toastui-editor-plugin-text-align.css" />
     <style>
         body {
-            margin: 20px;
-            font-family: sans-serif;
-            background-color: #151515;
+            /* Dynamic Theme Variables */
+            --toastui-editor-toolbar-bg: #232428;
+            /* Using the CORE variable now */
+            background-color: #333;
             color: #eee;
         }
 
@@ -22,13 +24,20 @@
 </head>
 
 <body>
-    <h1>Text Align Plugin Demo</h1>
+    <h1>Text Align Plugin Demo (Core Refactor)</h1>
+
+    <div style="margin-bottom: 20px;">
+        <label for="bgColor">Toolbar Color: </label>
+        <input type="color" id="bgColor" value="#232428">
+    </div>
+
     <div id="editor"></div>
 
     <button id="toggleMode">Switch to WYSIWYG</button>
 
-    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-    <script src="./dist/toastui-editor-plugin-text-align.js?v=6"></script>
+    <!-- CORE EDITOR JS (Local Build) -->
+    <script src="../../apps/editor/dist/cdn/toastui-editor-all.js"></script>
+    <script src="./dist/toastui-editor-plugin-text-align.js?v=7"></script>
     <script>
         const Editor = toastui.Editor;
         const textAlignPlugin = toastui.Editor.plugin.textAlign;
@@ -44,8 +53,6 @@
         window.editor = editor;
 
         document.getElementById('toggleMode').addEventListener('click', () => {
-            const currentMode = editor.getMarkdown() ? 'wysiwyg' : 'markdown'; // Naive check, better to use getUI().getMode() if available
-            // Actually Editor has changeMode
             if (editor.isWysiwygMode()) {
                 editor.changeMode('markdown');
                 document.getElementById('toggleMode').textContent = 'Switch to WYSIWYG';
@@ -53,6 +60,11 @@
                 editor.changeMode('wysiwyg');
                 document.getElementById('toggleMode').textContent = 'Switch to Markdown';
             }
+        });
+
+        // Dynamic Background Logic - NOW UPDATING CORE VARIABLE
+        document.getElementById('bgColor').addEventListener('input', (e) => {
+            document.body.style.setProperty('--toastui-editor-toolbar-bg', e.target.value);
         });
     </script>
 </body>

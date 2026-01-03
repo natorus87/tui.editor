@@ -1,8 +1,11 @@
+> This is a fork of the [Toast UI Editor](https://github.com/natorus87/tui.editor) maintained by `@licium`.
+> Original repository: https://github.com/natorus87/tui.editor
+
 # TOAST UI Editor : UML Plugin
 
-> This is a plugin of [TOAST UI Editor](https://github.com/nhn/tui.editor/tree/master/apps/editor) to render UML.
+> This is a plugin of [TOAST UI Editor](https://github.com/natorus87/tui.editor/tree/master/apps/editor) to render UML.
 
-[![npm version](https://img.shields.io/npm/v/@toast-ui/editor-plugin-uml.svg)](https://www.npmjs.com/package/@toast-ui/editor-plugin-uml)
+[![npm version](https://img.shields.io/npm/v/@licium/editor-plugin-uml.svg)](https://www.npmjs.com/package/@licium/editor-plugin-uml)
 
 ![uml](https://user-images.githubusercontent.com/37766175/121813437-01fe9b80-cca7-11eb-966b-598333c8ec14.png)
 
@@ -38,14 +41,14 @@ The bundle files include all dependencies of this plugin.
 
 ## 📦 Usage npm
 
-To use the plugin, [`@toast-ui/editor`](https://github.com/nhn/tui.editor/tree/master/apps/editor) must be installed.
+To use the plugin, [`@licium/editor`](https://github.com/natorus87/tui.editor/tree/master/apps/editor) must be installed.
 
-> Ref. [Getting Started](https://github.com/nhn/tui.editor/blob/master/docs/en/getting-started.md)
+> Ref. [Getting Started](https://github.com/natorus87/tui.editor/blob/master/docs/en/getting-started.md)
 
 ### Install
 
 ```sh
-$ npm install @toast-ui/editor-plugin-uml
+$ npm install @licium/editor-plugin-uml
 ```
 
 ### Import Plugin
@@ -53,13 +56,13 @@ $ npm install @toast-ui/editor-plugin-uml
 #### ES Modules
 
 ```js
-import uml from '@toast-ui/editor-plugin-uml';
+import uml from '@licium/editor-plugin-uml';
 ```
 
 #### CommonJS
 
 ```js
-const uml = require('@toast-ui/editor-plugin-uml');
+const uml = require('@licium/editor-plugin-uml');
 ```
 
 ### Create Instance
@@ -67,8 +70,8 @@ const uml = require('@toast-ui/editor-plugin-uml');
 #### Basic
 
 ```js
-import Editor from '@toast-ui/editor';
-import uml from '@toast-ui/editor-plugin-uml';
+import Editor from '@licium/editor';
+import uml from '@licium/editor-plugin-uml';
 
 const editor = new Editor({
   // ...
@@ -79,8 +82,8 @@ const editor = new Editor({
 #### With Viewer
 
 ```js
-import Viewer from '@toast-ui/editor/dist/toustui-editor-viewer';
-import uml from '@toast-ui/editor-plugin-uml';
+import Viewer from '@licium/editor/dist/toustui-editor-viewer';
+import uml from '@licium/editor-plugin-uml';
 
 const viewer = new Viewer({
   // ...
@@ -91,8 +94,8 @@ const viewer = new Viewer({
 or
 
 ```js
-import Editor from '@toast-ui/editor';
-import uml from '@toast-ui/editor-plugin-uml';
+import Editor from '@licium/editor';
+import uml from '@licium/editor-plugin-uml';
 
 const viewer = Editor.factory({
   // ...
@@ -103,7 +106,7 @@ const viewer = Editor.factory({
 
 ## 🗂 Usage CDN
 
-To use the plugin, the CDN files(CSS, Script) of `@toast-ui/editor` must be included.
+To use the plugin, the CDN files(CSS, Script) of `@licium/editor` must be included.
 
 ### Include Files
 
@@ -172,8 +175,8 @@ The following option is available in the `uml` plugin.
 ```js
 // ...
 
-import Editor from '@toast-ui/editor';
-import uml from '@toast-ui/editor-plugin-uml';
+import Editor from '@licium/editor';
+import uml from '@licium/editor-plugin-uml';
 
 const umlOptions = {
   rendererURL: // ...

@@ -177,3 +177,35 @@ We use `lerna` to manage multi-package releases.
         npm publish --access public
         ```
     -   Then re-run `lerna publish from-package` to ensure consistency.
+
+### Plugin Development Patterns
+
+#### Bypassing Schema Stripping in WYSIWYG
+-   **Problem**: The WYSIWYG editor (ProseMirror) strictly adheres to the schema. Custom attributes (like `align`) on standard blocks (like `p` or `div`) are often stripped during conversion or pasting if the schema doesn't explicitly allow them.
+-   **Solution (Mark Strategy)**: Instead of trying to modify block attributes or register new block nodes (which is complex), use **Marks** (like `<span>`).
+    -   Register a `span` mark with attributes (e.g., `style`).
+    -   Apply `display: block` style to the span to make it behave visually like a block wrapper.
+    -   This is supported by the default `htmlInline` renderer and bypasses block-level schema restrictions.
+    -   *Example*: Text Alignment plugin uses `<span style="display: block; text-align: center">...</span>`.
+
+#### Markdown Command Parsing
+-   **Robustness**: When implementing toggle logic in Markdown commands, use loose **Regex** to detect existing wrapping tags.
+-   **Reason**: Attributes order or whitespace might vary. strict string matching will fail often.
+    -   *Bad*: `text === '<div align="center">...</div>'`
+    -   *Good*: `text.match(/^\s*<span\s+[^>]*style="[^"]*text-align:\s*(center)...`
+
+
+#### UI & Icon Strategy
+-   **Toolbar Icons**: Avoid using external image files (PNG/JPG) which need complex build config.
+-   **Best Practice**: Use **Base64 encoded SVGs** embedded directly in CSS.
+    -   *Advantages*: No extra network requests, no webpack asset configuration needed, sharp scaling.
+    -   *Implementation*: Set `background-image` in CSS.
+-   **Sizing**: Standard toolbar buttons are **32x32px**.
+    -   If your icon sprite has different spacing, use `background-position` to center it (e.g., if icons are 24px, offset by 4px).
+-   **Dark Mode**: The editor adds the class `.toastui-editor-dark` to the container.
+    -   Override the `background-image` in your CSS for this selector to provide white/light icons.
+    -   *Pattern*:
+        ```css
+        .toastui-editor-toolbar-icons.my-plugin { background-image: url('data:image/svg+xml;base64,...'); }
+        .toastui-editor-dark .toastui-editor-toolbar-icons.my-plugin { background-image: url('data:image/svg+xml;base64,...(white version)...'); }
+        ```

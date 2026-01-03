@@ -1,3 +1,6 @@
+> This is a fork of the [Toast UI Editor](https://github.com/natorus87/tui.editor) maintained by `@licium`.
+> Original repository: https://github.com/natorus87/tui.editor
+
 # ToastMark
 
 ToastMark is a markdown parser extended from [commonmark.js](https://github.com/commonmark/commonmark.js), with more advanced features to be used within TOAST UI Editor. 

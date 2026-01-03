@@ -1,8 +1,11 @@
+> This is a fork of the [Toast UI Editor](https://github.com/natorus87/tui.editor) maintained by `@licium`.
+> Original repository: https://github.com/natorus87/tui.editor
+
 # TOAST UI Editor : Color Syntax Plugin
 
-> This is a plugin of [TOAST UI Editor](https://github.com/nhn/tui.editor/tree/master/apps/editor) to color editing text.
+> This is a plugin of [TOAST UI Editor](https://github.com/natorus87/tui.editor/tree/master/apps/editor) to color editing text.
 
-[![npm version](https://img.shields.io/npm/v/@toast-ui/editor-plugin-color-syntax.svg)](https://www.npmjs.com/package/@toast-ui/editor-plugin-color-syntax)
+[![npm version](https://img.shields.io/npm/v/@licium/editor-plugin-color-syntax.svg)](https://www.npmjs.com/package/@licium/editor-plugin-color-syntax)
 
 ![color-syntax](https://user-images.githubusercontent.com/37766175/121813686-28710680-cca8-11eb-87c6-1dc9625369b0.png)
 
@@ -41,14 +44,14 @@ The bundle files include all dependencies of this plugin.
 
 ## 📦 Usage npm
 
-To use the plugin, [`@toast-ui/editor`](https://github.com/nhn/tui.editor/tree/master/apps/editor) must be installed.
+To use the plugin, [`@licium/editor`](https://github.com/natorus87/tui.editor/tree/master/apps/editor) must be installed.
 
-> Ref. [Getting Started](https://github.com/nhn/tui.editor/blob/master/docs/en/getting-started.md)
+> Ref. [Getting Started](https://github.com/natorus87/tui.editor/blob/master/docs/en/getting-started.md)
 
 ### Install
 
 ```sh
-$ npm install @toast-ui/editor-plugin-color-syntax
+$ npm install @licium/editor-plugin-color-syntax
 ```
 
 ### Import Plugin
@@ -59,18 +62,18 @@ Along with the plugin, the plugin's dependency style must be imported. The `colo
 
 ```js
 import 'tui-color-picker/dist/tui-color-picker.css';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import '@licium/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import colorSyntax from '@licium/editor-plugin-color-syntax';
 ```
 
 #### CommonJS
 
 ```js
 require('tui-color-picker/dist/tui-color-picker.css');
-require('@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css');
+require('@licium/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css');
 
-const colorSyntax = require('@toast-ui/editor-plugin-color-syntax');
+const colorSyntax = require('@licium/editor-plugin-color-syntax');
 ```
 
 ### Create Instance
@@ -80,10 +83,10 @@ const colorSyntax = require('@toast-ui/editor-plugin-color-syntax');
 ```js
 // ...
 import 'tui-color-picker/dist/tui-color-picker.css';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import '@licium/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 
-import Editor from '@toast-ui/editor';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import Editor from '@licium/editor';
+import colorSyntax from '@licium/editor-plugin-color-syntax';
 
 const editor = new Editor({
   // ...
@@ -93,7 +96,7 @@ const editor = new Editor({
 
 ## 🗂 Usage CDN
 
-To use the plugin, the CDN files(CSS, Script) of `@toast-ui/editor` must be included.
+To use the plugin, the CDN files(CSS, Script) of `@licium/editor` must be included.
 
 ### Include Files
 
@@ -151,10 +154,10 @@ The following options are available in the `color-syntax` plugin.
 ```js
 // ...
 import 'tui-color-picker/dist/tui-color-picker.css';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import '@licium/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 
-import Editor from '@toast-ui/editor';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import Editor from '@licium/editor';
+import colorSyntax from '@licium/editor-plugin-color-syntax';
 
 const colorSyntaxOptions = {
   preset: ['#181818', '#292929', '#393939']
