@@ -1,6 +1,6 @@
 {
   "name": "@licium/toastmark",
-  "version": "0.0.1-alpha.1",
+  "version": "3.2.4",
   "description": "ToastMark - Incremental markdown parser extended from CommonMark.js",
   "scripts": {
     "lint": "eslint .",

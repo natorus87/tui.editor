@@ -1,6 +1,6 @@
 {
   "name": "@licium/vue-editor",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "description": "TOAST UI Editor for Vue",
   "main": "dist/toastui-vue-editor.js",
   "module": "dist/esm/index.js",
@@ -34,7 +34,7 @@
     "vue": "^2.5.0"
   },
   "dependencies": {
-    "@licium/editor": "^3.2.2"
+    "@licium/editor": "^3.2.4"
   },
   "gitHead": "cbc7cab7b3f081a1aaf1d338b8138512ace132b9"
 }
