@@ -1,4 +1,5 @@
 @charset "utf-8";
+
 .toastui-editor-dark.toastui-editor-defaultUI {
   border-color: #494c56;
   color: #eee;
@@ -10,22 +11,22 @@
 }
 
 .toastui-editor-dark .toastui-editor-defaultUI-toolbar {
-  background-color: #232428;
+  background-color: var(--toastui-editor-toolbar-bg, #232428);
   border-bottom-color: #303238;
 }
 
 .toastui-editor-dark .toastui-editor-toolbar-icons {
   background-position-y: -49px;
-  border-color: #232428;
+  border-color: transparent;
 }
 
 .toastui-editor-dark .toastui-editor-toolbar-icons:not(:disabled):hover {
-  background-color: #36383f;
-  border-color: #36383f;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: transparent;
 }
 
 .toastui-editor-dark .toastui-editor-toolbar-divider {
-  background-color: #303238;
+  background-color: transparent;
 }
 
 .toastui-editor-dark .toastui-editor-tooltip {
@@ -48,7 +49,7 @@
   background-color: #2b4455;
 }
 
-.toastui-editor-dark .toastui-editor-defaultUI-toolbar input:checked + .switch {
+.toastui-editor-dark .toastui-editor-defaultUI-toolbar input:checked+.switch {
   background-color: #2b4455;
 }
 
@@ -56,7 +57,7 @@
   background-color: #8f939f;
 }
 
-.toastui-editor-dark .toastui-editor-defaultUI-toolbar input:checked + .switch::before {
+.toastui-editor-dark .toastui-editor-defaultUI-toolbar input:checked+.switch::before {
   background-color: #67ccff;
 }
 
@@ -83,7 +84,7 @@
 
 .toastui-editor-dark .toastui-editor-popup,
 .toastui-editor-dark .toastui-editor-context-menu {
-  background-color: #121212;
+  background-color: var(--toastui-editor-toolbar-bg, #121212);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
   border-color: #494c56;
 }
@@ -216,8 +217,8 @@
 }
 
 .toastui-editor-dark .toastui-editor-dropdown-toolbar {
-  border-color: #494c56;
-  background-color: #232428;
+  border-color: transparent;
+  background-color: var(--toastui-editor-toolbar-bg, #232428);
 }
 
 .toastui-editor-dark .ProseMirror,
@@ -351,7 +352,7 @@
   color: #55575f;
 }
 
-.toastui-editor-dark .toastui-editor-contents ul > li::before {
+.toastui-editor-dark .toastui-editor-contents ul>li::before {
   background-color: #55575f;
 }
 
@@ -469,6 +470,10 @@
   background-color: rgba(255, 250, 193, 0.25);
 }
 
-.toastui-editor-dark .toastui-editor-contents .toastui-editor-md-preview-highlight::after {
-  background-color: rgba(255, 250, 193, 0.25);
+/* FIX: Replace broken "More" button icon (sprite bleeding) with clean SVG */
+.toastui-editor-dark .toastui-editor-toolbar-icons.more {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23eee'%3E%3Ccircle cx='5' cy='12' r='2'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3Ccircle cx='19' cy='12' r='2'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: 24px 24px !important;
 }
