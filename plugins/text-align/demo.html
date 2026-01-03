@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Toast UI Editor Text Align Plugin Demo</title>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/theme/toastui-editor-dark.min.css" />
+    <link rel="stylesheet" href="./dist/toastui-editor-plugin-text-align.css" />
+    <style>
+        body {
+            margin: 20px;
+            font-family: sans-serif;
+            background-color: #151515;
+            color: #eee;
+        }
+
+        #editor {
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Text Align Plugin Demo</h1>
+    <div id="editor"></div>
+
+    <button id="toggleMode">Switch to WYSIWYG</button>
+
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script src="./dist/toastui-editor-plugin-text-align.js?v=6"></script>
+    <script>
+        const Editor = toastui.Editor;
+        const textAlignPlugin = toastui.Editor.plugin.textAlign;
+
+        const editor = new Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            theme: 'dark',
+            plugins: [textAlignPlugin]
+        });
+        window.editor = editor;
+
+        document.getElementById('toggleMode').addEventListener('click', () => {
+            const currentMode = editor.getMarkdown() ? 'wysiwyg' : 'markdown'; // Naive check, better to use getUI().getMode() if available
+            // Actually Editor has changeMode
+            if (editor.isWysiwygMode()) {
+                editor.changeMode('markdown');
+                document.getElementById('toggleMode').textContent = 'Switch to WYSIWYG';
+            } else {
+                editor.changeMode('wysiwyg');
+                document.getElementById('toggleMode').textContent = 'Switch to Markdown';
+            }
+        });
+    </script>
+</body>
+
+</html>
