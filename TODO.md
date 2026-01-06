@@ -3,7 +3,14 @@
 This file summarizes **all 293 open bugs** from the original [tui.editor repository](https://github.com/nhn/tui.editor/issues?q=state%3Aopen+label%3ABug) as of today. They are categorized to help prioritize fixes.
 
 ## 🔥 Critical & High Priority
+
+## ✅ Resolved (Jan 2026)
+- **Details Plugin**: Fixed nested content serialization, Enter key interaction, and CSS loading. Relocated toolbar button.
+- **Toolbar Layout**: Fixed dynamic spacing (left-aligned) and right-aligned Scroll toggle.
+- **Icons**: Fixed visibility (Italic/UL) and alignment (Strike/Task).
+
 Issues that cause crashes, data loss, or severe usability breakage.
+- **Icon Updates**: Replaced 'CodeBlock' (Document+Brackets) and 'Text Color' (Underlined A) icons to match user design.
 
 - **#3324**: TUI Image Editor fails to initialize inside Froala Editor in Vue with remote backend images.
 

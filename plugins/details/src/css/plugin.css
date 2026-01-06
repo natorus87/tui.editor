@@ -1,0 +1,36 @@
+/* Light Mode */
+.toastui-editor-toolbar-icons.details {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z'/%3E%3Cpath d='M9 10L12 13 15 10' stroke='%23333'/%3E%3C/svg%3E") !important;
+    background-size: 24px 24px !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    text-indent: -9999px !important;
+}
+
+details {
+    display: block;
+    background-color: #f7f7f7;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 5px;
+    outline: none;
+}
+
+/* Dark Mode */
+.toastui-editor-dark .toastui-editor-toolbar-icons.details {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23eee' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z'/%3E%3Cpath d='M9 10L12 13 15 10' stroke='%23eee'/%3E%3C/svg%3E") !important;
+}
+
+.toastui-editor-dark details {
+    background-color: #282a36;
+    /* Darker background for contrast against editor bg */
+    border-color: #44475a;
+    color: #f8f8f2;
+}

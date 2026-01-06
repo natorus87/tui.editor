@@ -1,5 +1,31 @@
 # Changelog
 
+## [Unreleased] - 2026-01-06
+
+### 🎨 Visual & UI Refinements
+- **Toolbar Layout Strategy**: Switched from `space-between` to `flex-start` (left-aligned) with fixed gaps (`15px`) to prevent dynamic jumping.
+    -   Used CSS `:has()` selector to force the 'Scroll' toggle group to the far right.
+- **Icon Updates (Final Polish)**:
+    -   **CodeBlock**: New "Document with Brackets" design.
+    -   **Text Color**: Simplified "Underlined A" design.
+    -   **Visibility Fixes**: Resolved visibility issues for Italic and UL icons in Light Mode.
+    -   **Dark Mode Consistency**:
+        -   **Emoji**: Added white stroke version for dark mode.
+        -   **Strike & Task List**: Updated to new geometric designs (White Stroke) in Dark Mode.
+        -   **Table**: Updated to white filled/outline version in Dark Mode.
+    -   **Table Icon**: New "Outline with Header Row" design (Header + Grid) for better clarity.
+
+### 🖇️ Plugin Improvements
+- **Details Plugin**:
+    -   Fixed `Enter` key behavior (now correctly creates single new lines inside the block).
+    -   Address nested content serialization data loss issues.
+    -   Address nested content serialization data loss issues.
+    -   Relocated "Collapsible Block" toolbar button to the "CodeBlock" group.
+- **Text Align Plugin**:
+    -   Relocated buttons to the **Line / Blockquote** group for improved toolbar organization.
+- **Emoji Plugin**:
+    -   Added new emoji picker with scrollable grid and functional emoji priorities.
+
 ## 3.2.8 (2025-01-03)
 
 ### 🎨 Visual & UI Refinements

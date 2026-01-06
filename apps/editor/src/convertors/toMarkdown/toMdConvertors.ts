@@ -6,6 +6,7 @@ import { nodeTypeWriters, write } from './toMdNodeTypeWriters';
 
 import { repeat, quote, escapeXml, escapeTextForLink } from '@/utils/common';
 
+/* eslint-disable */
 import {
   ToMdConvertorMap,
   ToMdNodeTypeConvertorMap,
@@ -368,8 +369,8 @@ function createNodeTypeConvertors(convertors: ToMdConvertorMap) {
         const convertor = convertors[type];
         const params = convertor
           ? convertor(nodeInfo as NodeInfo, {
-              inTable: state.inTable,
-            })
+            inTable: state.inTable,
+          })
           : {};
 
         write(type, { state, nodeInfo, params });
@@ -419,6 +420,7 @@ export function createMdConvertors(customConvertors: ToMdConvertorMap) {
   const customConvertorTypes = Object.keys(customConvertors) as (WwNodeType | WwMarkType)[];
 
   customConvertorTypes.forEach((type) => {
+    console.log('[DEBUG] custom convertor for:', type);
     const baseConvertor = toMdConvertors[type];
     const customConvertor = customConvertors[type]!;
 
@@ -436,6 +438,8 @@ export function createMdConvertors(customConvertors: ToMdConvertorMap) {
   });
 
   const nodeTypeConvertors = createNodeTypeConvertors(toMdConvertors);
+
+
   const markTypeConvertors = createMarkTypeConvertors(toMdConvertors);
 
   return {

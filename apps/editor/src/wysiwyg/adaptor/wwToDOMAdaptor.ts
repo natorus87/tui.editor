@@ -49,12 +49,35 @@ const tokenToDOMNode: TokenToDOM<HTMLElement> = {
     }
   },
   html(token, stack) {
-    last(stack).insertAdjacentHTML('beforeend', (token as RawHTMLToken).content);
+    const parent = last(stack);
+
+    if (parent) {
+      parent.insertAdjacentHTML('beforeend', (token as RawHTMLToken).content);
+    } else {
+      const html = (token as RawHTMLToken).content;
+      const container = document.createElement('div');
+
+      container.innerHTML = html;
+      let child = container.firstChild;
+
+      if (!child) {
+        child = document.createElement('span');
+      } else if (child.nodeType === Node.TEXT_NODE) {
+        const wrapper = document.createElement('span');
+
+        wrapper.appendChild(child);
+        child = wrapper;
+      }
+      stack.push(child as HTMLElement);
+    }
   },
   text(token, stack) {
     const textNode = document.createTextNode((token as TextToken).content);
+    const parent = last(stack);
 
-    last(stack).appendChild(textNode);
+    if (parent) {
+      parent.appendChild(textNode);
+    }
   },
 };
 

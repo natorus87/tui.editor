@@ -24,12 +24,12 @@ function addFileManagerPlugin(config) {
   // These files are unnecessary, so use the FileManager plugin to delete them.
   const options = minify
     ? {
-        delete: ['./dist/cdn/toastui-editor-only.min.js'],
-      }
+      delete: ['./dist/cdn/toastui-editor-only.min.js'],
+    }
     : {
-        delete: ['./dist/toastui-editor-only.js'],
-        copy: [{ source: './dist/*.{js,css}', destination: './dist/cdn' }],
-      };
+      delete: ['./dist/toastui-editor-only.js'],
+      copy: [{ source: './dist/*.{js,css}', destination: './dist/cdn' }],
+    };
 
   config.plugins.push(new FileManagerPlugin({ events: { onEnd: options } }));
 }
@@ -37,11 +37,11 @@ function addFileManagerPlugin(config) {
 function addCopyPluginForThemeCss(config) {
   const options = minify
     ? {
-        patterns: [{ from: './src/css/theme/*.css', to: './theme/toastui-editor-[name].min.css' }],
-      }
+      patterns: [{ from: './src/css/theme/*.css', to: './theme/toastui-editor-[name].min.css' }],
+    }
     : {
-        patterns: [{ from: './src/css/theme/*.css', to: './theme/toastui-editor-[name].css' }],
-      };
+      patterns: [{ from: './src/css/theme/*.css', to: './theme/toastui-editor-[name].css' }],
+    };
 
   config.plugins.push(new CopyPlugin(options));
 }
@@ -118,7 +118,7 @@ function setProductionConfigForAll(config) {
 
 module.exports = (env) => {
   minify = !!env.minify;
-  isProduction = env.WEBPACK_BUILD;
+  isProduction = !!env.WEBPACK_BUILD;
 
   const configs = Array(isProduction ? 2 : 1)
     .fill(0)

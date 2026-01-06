@@ -209,3 +209,56 @@ We use `lerna` to manage multi-package releases.
         .toastui-editor-toolbar-icons.my-plugin { background-image: url('data:image/svg+xml;base64,...'); }
         .toastui-editor-dark .toastui-editor-toolbar-icons.my-plugin { background-image: url('data:image/svg+xml;base64,...(white version)...'); }
         ```
+
+#### CSS Strategy: Custom Icons
+- **Goal**: Replace default icons with custom designs without altering the build process.
+- **Solution**: Use high-specificity CSS selectors and `background-image` with base64-encoded SVGs.
+    -   Ensure `background-size: 24px 24px` and `background-position: center`.
+    -   Use `!important` if necessary to override default sprite positioning.
+
+#### CSS Strategy: Parent Selection
+- **Problem**: Need to style a parent container based on a specific child (e.g., right-aligning a toolbar group that contains the Scroll toggle).
+- **Solution**: Use the `:has()` pseudo-class.
+    -   *Example*: `.toastui-editor-toolbar-group:has(.scroll-sync) { margin-left: auto; }`
+    -   This is supported in all modern browsers and allows for robust layout control without JavaScript.
+
+## Verified Plugin Status (Jan 2026)
+
+Verified against `demo-all.html` (served via http-server).
+
+| Plugin | Status | Notes |
+| :--- | :--- | :--- |
+| **Details** | **PASS** | Core logic, interactions (Enter key), and CSS fixed. Toolbar button moved to CodeBlock group. |
+| **Chart** | **FAILED** | Fails to render in demo. `$$chart` syntax untested but initial attempts failed. Needs `usageStatistics: false`. |
+| **UML** | **FAILED** | Fails to render. Needs HTTPS renderer URL. `$$uml` syntax untested. |
+| **Color Syntax** | **PARTIAL** | Color text rendering works. Color picker UI needs verification. |
+| **Table Merged Cell** | **PASS** | Works correctly. |
+| **Code Syntax Highlight**| **PASS** | Works correctly with Prism. |
+| **Text Align** | **PASS** | Works correctly. Buttons relocated to Line/Quote group. |
+| **Emoji** | **PASS** | Works correctly. Dark mode supported. |
+
+### Pending Fixes
+- **Chart/UML**: Investigate `$$` syntax support vs ``` code block support.
+
+## CDN Build Note
+When working on plugins that are used in `demo-all.html` (which loads from `dist/cdn`), you must run the CDN build script to propagate changes:
+```bash
+npm run build:cdn
+```
+Or use the combined build script if available:
+```bash
+npm run build
+```
+(Check `package.json` scripts for specifics as some plugins separate these).
+
+## CDN Build Note
+When working on plugins that are used in `demo-all.html` (which loads from `dist/cdn`), you must run the CDN build script to propagate changes:
+```bash
+npm run build:cdn
+```
+Or use the combined build script if available:
+```bash
+npm run build
+```
+(Check `package.json` scripts for specifics as some plugins separate these).
+

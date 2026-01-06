@@ -24,7 +24,9 @@ export type WwNodeType =
   | 'frontMatter'
   | 'widget'
   | 'html'
-  | 'htmlComment';
+  | 'htmlComment'
+  | 'details'
+  | 'summary';
 
 export type WwMarkType = 'strong' | 'emph' | 'strike' | 'link' | 'code' | 'html';
 

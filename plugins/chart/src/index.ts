@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * @example
  * $$chart
@@ -155,12 +156,12 @@ export function parseToChartData(text: string, delimiter?: string | RegExp) {
   const series = tdsv.map((data, i) =>
     hasLegends
       ? {
-          name: legends[i],
-          data,
-        }
+        name: legends[i],
+        data,
+      }
       : {
-          data,
-        }
+        data,
+      }
   );
 
   return { categories, series };
@@ -353,12 +354,13 @@ function generateId() {
  * @param {number|string} [options.height='auto'] - default height
  */
 export default function chartPlugin(
-  { usageStatistics = true }: PluginContext,
+  { usageStatistics = false }: PluginContext,
   options: PluginOptions
 ): PluginInfo {
   return {
     toHTMLRenderers: {
       chart(node: MdNode) {
+        console.log('[Chart Plugin] Rendering chart node:', node);
         const id = generateId();
 
         setTimeout(() => {

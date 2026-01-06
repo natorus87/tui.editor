@@ -46,18 +46,18 @@ export default function textAlignPlugin(
     },
     toolbarItems: [
       {
-        groupIndex: 0,
-        itemIndex: 3,
+        groupIndex: 1,
+        itemIndex: 2,
         item: createToolbarItemOption('', 'alignLeft', i18n),
       },
       {
-        groupIndex: 0,
-        itemIndex: 4,
+        groupIndex: 1,
+        itemIndex: 3,
         item: createToolbarItemOption('', 'alignCenter', i18n),
       },
       {
-        groupIndex: 0,
-        itemIndex: 5,
+        groupIndex: 1,
+        itemIndex: 4,
         item: createToolbarItemOption('', 'alignRight', i18n),
       },
     ],
@@ -71,7 +71,10 @@ export default function textAlignPlugin(
               ? { type: 'openTag', tagName: 'span', attributes: { style } }
               : { type: 'closeTag', tagName: 'span' };
           }
-          return origin!();
+          if (origin) {
+            return origin();
+          }
+          return { type: 'html', content: node.literal || '' };
         },
       },
     },
@@ -244,9 +247,9 @@ function execWysiwygAlign(alignType: string, selection: any, schema: any, tr: an
   let existingMark = null;
   let existingAlign = null;
 
-  tr.doc.nodesBetween(targetFrom, targetTo, (node) => {
+  tr.doc.nodesBetween(targetFrom, targetTo, (node: any) => {
     if (existingMark) return false;
-    node.marks.forEach((mark) => {
+    node.marks.forEach((mark: any) => {
       if (mark.type === markType && mark.attrs.style && mark.attrs.style.indexOf(styleBase) > -1) {
         existingMark = mark;
         const match = mark.attrs.style.match(/text-align: (left|center|right)/);

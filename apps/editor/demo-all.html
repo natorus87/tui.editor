@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TUI Editor - All Plugins Demo</title>
+    <!-- Editor CSS -->
+    <link rel="stylesheet" href="./dist/cdn/toastui-editor.css">
+    <link rel="stylesheet" href="./dist/cdn/theme/toastui-editor-dark.css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="../../plugins/color-syntax/dist/cdn/toastui-editor-plugin-color-syntax.css">
+    <link rel="stylesheet" href="../../plugins/table-merged-cell/dist/cdn/toastui-editor-plugin-table-merged-cell.css">
+    <link rel="stylesheet"
+        href="../../plugins/code-syntax-highlight/dist/cdn/toastui-editor-plugin-code-syntax-highlight.css">
+    <link rel="stylesheet" href="../../plugins/text-align/dist/cdn/toastui-editor-plugin-text-align.css">
+    <link rel="stylesheet" href="../../plugins/details/dist/cdn/toastui-editor-plugin-details.css">
+    <link rel="stylesheet" href="../../plugins/emoji/dist/cdn/toastui-editor-plugin-emoji.css">
+
+    <link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.css">
+    <!-- Prismjs themes (for code syntax highlight) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css">
+
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        #editor {
+            margin-top: 20px;
+        }
+
+        .controls {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Toast UI Editor - All Plugins Demo</h1>
+    <div>
+        <button id="toggle-theme">Toggle Dark Mode</button>
+        <button id="get-md">Get Markdown</button>
+        <button id="get-html">Get HTML</button>
+    </div>
+
+    <div id="editor"></div>
+
+    <!-- Editor JS -->
+    <script src="./dist/cdn/toastui-editor-all.js"></script>
+
+    <!-- Dependencies -->
+    <script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
+    <script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-javascript.min.js"></script>
+
+    <!-- Plugin JS -->
+    <script src="../../plugins/chart/dist/cdn/toastui-editor-plugin-chart.js"></script>
+    <script src="../../plugins/uml/dist/cdn/toastui-editor-plugin-uml.js"></script>
+    <script src="../../plugins/color-syntax/dist/cdn/toastui-editor-plugin-color-syntax.js"></script>
+    <script src="../../plugins/table-merged-cell/dist/cdn/toastui-editor-plugin-table-merged-cell.js"></script>
+    <script
+        src="../../plugins/code-syntax-highlight/dist/cdn/toastui-editor-plugin-code-syntax-highlight-all.js"></script>
+    <script src="../../plugins/text-align/dist/cdn/toastui-editor-plugin-text-align.js"></script>
+    <!-- Details Plugin -->
+    <script src="../../plugins/details/dist/cdn/toastui-editor-plugin-details.js"></script>
+    <script src="../../plugins/emoji/dist/cdn/toastui-editor-plugin-emoji.js"></script>
+
+    <script>
+        const { Editor } = toastui;
+        const { chart, uml, colorSyntax, tableMergedCell, codeSyntaxHighlight, textAlign, details, emoji } = Editor.plugin;
+
+        const editor = new Editor({
+            el: document.querySelector('#editor'),
+            previewStyle: 'vertical',
+            height: '800px',
+            initialEditType: 'markdown',
+            initialValue: `
+# 🔡 Emoji Plugin Demo
+
+Click the smiley face icon in the toolbar to insert an emoji!
+
+### Features
+- Scrollable popup
+- Grid layout
+- Click to insert
+
+---
+`,
+            plugins: [
+                chart,
+                [uml, { rendererURL: 'https://www.plantuml.com/plantuml/png/' }], // explicit HTTPS just in case, though default is fixed
+                colorSyntax,
+                tableMergedCell,
+                codeSyntaxHighlight,
+                textAlign,
+                details,
+                emoji
+            ]
+        });
+
+        window.editor = editor;
+        console.log('Editor initialized', editor);
+
+        document.getElementById('toggle-theme').addEventListener('click', () => {
+            const editorData = document.querySelector('.toastui-editor-defaultUI');
+            if (editorData.classList.contains('toastui-editor-dark')) {
+                editorData.classList.remove('toastui-editor-dark');
+            } else {
+                editorData.classList.add('toastui-editor-dark');
+            }
+        });
+
+        document.getElementById('get-md').addEventListener('click', () => {
+            alert(editor.getMarkdown());
+            console.log(editor.getMarkdown());
+        });
+
+        document.getElementById('get-html').addEventListener('click', () => {
+            alert(editor.getHTML());
+            console.log(editor.getHTML());
+        });
+
+    </script>
+</body>
+
+</html>

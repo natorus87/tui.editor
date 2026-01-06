@@ -3,6 +3,7 @@ import { Node, Mark } from 'prosemirror-model';
 import { includes, escape, last } from '@/utils/common';
 
 import { WwNodeType, WwMarkType } from '@t/wysiwyg';
+/* eslint-disable */
 import {
   ToMdConvertors,
   ToMdNodeTypeConvertorMap,
@@ -146,6 +147,7 @@ export default class ToMdConvertorState {
 
   convertBlock(node: Node, parent: Node, index: number) {
     const type = node.type.name as WwNodeType;
+
     const convertor = this.nodeTypeConvertors[type];
     const nodeInfo = { node, parent, index };
     const startPos = this.result.length;
@@ -174,7 +176,9 @@ export default class ToMdConvertorState {
     // Storing it in the instance is cleanest given the recursion.
     // I need to add `infoForPosSync` to the class.
 
-    if (node.attrs.htmlBlock) {
+    // Skip htmlBlock fallback for details/summary to use their custom writers
+    const skipHtmlBlockTypes = ['details', 'summary'];
+    if (node.attrs.htmlBlock && !skipHtmlBlockTypes.includes(type)) {
       this.nodeTypeConvertors.html!(this, nodeInfo);
     } else if (convertor) {
       convertor(this, nodeInfo);
@@ -309,8 +313,8 @@ export default class ToMdConvertorState {
         if (noEscape && node.isText) {
           this.text(
             this.markText(lastMark as Mark, true, parent, index) +
-              node.text +
-              this.markText(lastMark as Mark, false, parent, index + 1),
+            node.text +
+            this.markText(lastMark as Mark, false, parent, index + 1),
             false
           );
         } else {

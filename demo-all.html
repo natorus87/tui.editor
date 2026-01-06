@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Toast UI Editor - All Plugins Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Toast UI Editor All Plugins Demo" />
+    <!-- Core Editor CSS -->
+    <link rel="stylesheet" href="./apps/editor/dist/cdn/toastui-editor.css" />
+    <link rel="stylesheet" href="./apps/editor/dist/cdn/theme/toastui-editor-dark.css" />
+
+    <!-- Dependencies CSS -->
+    <link rel="stylesheet" href="./node_modules/@toast-ui/chart/dist/toastui-chart.min.css" />
+    <link rel="stylesheet" href="./node_modules/tui-color-picker/dist/tui-color-picker.css" />
+    <link rel="stylesheet" href="./node_modules/prismjs/themes/prism-okaidia.css" />
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet"
+        href="./plugins/code-syntax-highlight/dist/cdn/toastui-editor-plugin-code-syntax-highlight.min.css" />
+    <link rel="stylesheet" href="./plugins/color-syntax/dist/cdn/toastui-editor-plugin-color-syntax.min.css" />
+    <link rel="stylesheet"
+        href="./plugins/table-merged-cell/dist/cdn/toastui-editor-plugin-table-merged-cell.min.css" />
+    <link rel="stylesheet" href="./plugins/text-align/dist/cdn/toastui-editor-plugin-text-align.min.css" />
+    <link rel="stylesheet" href="./plugins/details/src/css/plugin.css" />
+    <link rel="stylesheet" href="./plugins/emoji/dist/cdn/toastui-editor-plugin-emoji.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        #editor {
+            margin-top: 20px;
+        }
+
+        .controls {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #444;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Toast UI Editor - All Plugins Demo</h1>
+    <div class="controls">
+        <button id="toggleMode">Switch Mode</button>
+        <button id="getMarkdown">Get Markdown</button>
+    </div>
+    <div id="editor"></div>
+
+    <!-- Core Editor JS -->
+    <script src="./apps/editor/dist/cdn/toastui-editor-all.js"></script>
+
+    <!-- Dependencies JS -->
+    <script src="./node_modules/@toast-ui/chart/dist/toastui-chart.min.js"></script>
+    <script src="./node_modules/tui-color-picker/dist/tui-color-picker.min.js"></script>
+
+    <script>
+        // Debug & Shim for Dependencies
+        console.log('Checking Dependencies...');
+        console.log('toastui.Chart:', window.toastui && window.toastui.Chart);
+        console.log('tui.colorPicker:', window.tui && window.tui.colorPicker);
+
+        if (!window.tui) window.tui = {};
+        if (!window.tui.colorPicker && window.tuiColorPicker) {
+            // Fallback if loaded as different global
+            window.tui.colorPicker = window.tuiColorPicker;
+        }
+    </script>
+
+
+    <!-- Plugins JS -->
+    <script src="./plugins/chart/dist/cdn/toastui-editor-plugin-chart.min.js"></script>
+    <script
+        src="./plugins/code-syntax-highlight/dist/cdn/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
+    <script src="./plugins/color-syntax/dist/cdn/toastui-editor-plugin-color-syntax.min.js"></script>
+    <script src="./plugins/table-merged-cell/dist/cdn/toastui-editor-plugin-table-merged-cell.min.js"></script>
+    <script src="./plugins/text-align/dist/cdn/toastui-editor-plugin-text-align.min.js"></script>
+    <script src="./plugins/uml/dist/cdn/toastui-editor-plugin-uml.min.js"></script>
+    <script src="./plugins/details/dist/toastui-editor-plugin-details.js"></script>
+    <script src="./plugins/emoji/dist/cdn/toastui-editor-plugin-emoji.js"></script>
+
+    <script>
+        const { Editor } = toastui;
+        const { chart, codeSyntaxHighlight, colorSyntax, tableMergedCell, textAlign, uml, details, emoji } = Editor.plugin;
+
+        const editor = new Editor({
+            el: document.querySelector('#editor'),
+            height: '600px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            theme: 'dark',
+            plugins: [
+                [chart, { usageStatistics: false }],
+                [codeSyntaxHighlight, { highlighter: Prism }],
+                colorSyntax,
+                tableMergedCell,
+                [textAlign, { alignAttribute: 'class' }], // Assuming default config
+                [uml, { rendererURL: 'https://www.plantuml.com/plantuml/png/' }],
+                details,
+                emoji
+            ],
+            initialValue: `## All Plugins Demo
+
+### Details
+<details open="">
+<summary>Click to expand</summary>
+<p>Here is some hidden content.</p>
+</details>
+
+### Chart
+$$chart
+,Budget,Income,Expenses,Debt
+June,5000,8000,4000,6000
+July,3000,1000,4000,3000
+August,5000,7000,6000,3000
+September,7000,4000,3000,1000
+October,6000,3000,9000,2000
+November,4000,1000,1000,4000
+$$
+
+### UML
+$$uml
+@startuml
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+@enduml
+$$
+
+### Code Syntax Highlight
+\`\`\`javascript
+const foo = 'bar';
+console.log(foo);
+\`\`\`
+
+### Color Syntax
+<span style="color: #ff0000">Red Text</span>
+
+### Table Merged Cell
+| @cols=2:Merged |
+| --- | --- |
+| Cell 1 | Cell 2 |
+
+### Text Align
+<div class="align-center">Centered Text</div>
+`
+        });
+
+        document.getElementById('toggleMode').addEventListener('click', () => {
+            editor.changeMode(editor.isMarkdownMode() ? 'wysiwyg' : 'markdown');
+        });
+
+        document.getElementById('getMarkdown').addEventListener('click', () => {
+            console.log(editor.getMarkdown());
+            alert('Markdown logged to console');
+        });
+
+        window.editor = editor;
+    </script>
+</body>
+
+</html>

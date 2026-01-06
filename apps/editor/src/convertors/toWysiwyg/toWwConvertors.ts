@@ -378,7 +378,7 @@ const toWwConvertors: ToWwConvertorMap = {
       const sanitizedHTML = sanitizeHTML(html);
 
       // for user defined html schema
-      if (nodeType?.spec.attrs!.htmlBlock) {
+      if (nodeType?.spec.attrs!.htmlBlock && nodeType.spec.atom) {
         const htmlAttrs = getHTMLAttrsByHTMLString(sanitizedHTML);
         const childrenHTML = getChildrenHTML(node, typeName);
 

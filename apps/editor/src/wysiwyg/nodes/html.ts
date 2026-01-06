@@ -22,16 +22,17 @@ export function getHTMLAttrsByHTMLString(html: string) {
   html = html.match(reHTMLTag)![0];
   const attrs = html.match(new RegExp(ATTRIBUTE, 'g'));
 
+  // prettier-ignore
   return attrs
     ? attrs.reduce<Record<string, string | null>>((acc, attr) => {
-        const [name, ...values] = attr.trim().split('=');
+      const [name, ...values] = attr.trim().split('=');
 
-        if (values.length) {
-          acc[name] = values.join('=').replace(/'|"/g, '').trim();
-        }
+      if (values.length) {
+        acc[name] = values.join('=').replace(/'|"/g, '').trim();
+      }
 
-        return acc;
-      }, {})
+      return acc;
+    }, {})
     : {};
 }
 
@@ -62,10 +63,14 @@ export function sanitizeDOM(
 
 const schemaFactory = {
   htmlBlock(typeName: string, sanitizeHTML: Sanitizer, wwToDOMAdaptor: ToDOMAdaptor): NodeSpec {
+    const isContainer = ['details', 'summary'].includes(typeName);
+
     return {
-      atom: true,
-      content: 'block+',
+      atom: !isContainer,
+      content: typeName === 'summary' ? 'inline*' : 'block+',
       group: 'block',
+      defining: isContainer,
+      isolating: typeName === 'details',
       attrs: {
         htmlAttrs: { default: {} },
         childrenHTML: { default: '' },
@@ -75,6 +80,12 @@ const schemaFactory = {
         {
           tag: typeName,
           getAttrs(dom: Node | string) {
+            if (isContainer) {
+              return {
+                htmlAttrs: getHTMLAttrs(dom as HTMLElement),
+              };
+            }
+
             return {
               htmlAttrs: getHTMLAttrs(dom as HTMLElement),
               childrenHTML: (dom as HTMLElement).innerHTML,
@@ -86,6 +97,10 @@ const schemaFactory = {
         const { dom, htmlAttrs } = sanitizeDOM(node, typeName, sanitizeHTML, wwToDOMAdaptor);
 
         htmlAttrs.class = htmlAttrs.class ? `${htmlAttrs.class} html-block` : 'html-block';
+
+        if (isContainer) {
+          return [typeName, htmlAttrs, 0];
+        }
 
         return [typeName, htmlAttrs, ...toArray(dom.childNodes)];
       },

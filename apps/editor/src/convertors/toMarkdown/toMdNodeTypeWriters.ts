@@ -4,6 +4,7 @@ import inArray from 'tui-code-snippet/array/inArray';
 
 import { escapeTextForLink, repeat } from '@/utils/common';
 
+/* eslint-disable */
 import {
   ToMdNodeTypeWriterMap,
   ToMdConvertorState,
@@ -80,6 +81,13 @@ export const nodeTypeWriters: ToMdNodeTypeWriterMap = {
   },
 
   paragraph(state, { node, parent, index = 0 }) {
+    if (parent && parent.type.name === 'details') {
+      state.write('<p>');
+      state.convertInline(node);
+      state.write('</p>');
+      return;
+    }
+
     if (state.stopNewline) {
       state.convertInline(node);
     } else {
@@ -267,6 +275,27 @@ export const nodeTypeWriters: ToMdNodeTypeWriterMap = {
 
   htmlComment(state, { node }, { text }) {
     state.write(text);
+    state.closeBlock(node);
+  },
+
+  details(state, { node }) {
+    const attrs = node.attrs.htmlAttrs || {};
+    const openTag = attrs.open !== null && typeof attrs.open !== 'undefined'
+      ? '<details open="">'
+      : '<details>';
+
+    state.write(`${openTag}\n`);
+    state.stopNewline = true;
+    state.convertNode(node);
+    state.write('</details>');
+    state.stopNewline = false;
+    state.closeBlock(node);
+  },
+
+  summary(state, { node }) {
+    state.write('<summary>');
+    state.convertInline(node);
+    state.write('</summary>');
     state.closeBlock(node);
   },
 };

@@ -1,7 +1,7 @@
 {
-  "name": "@licium/editor-plugin-color-syntax",
-  "version": "3.2.5",
-  "description": "TOAST UI Editor : Color Syntax Plugin",
+  "name": "@licium/editor-plugin-details",
+  "version": "1.0.13",
+  "description": "Details/Summary plugin for Toast UI Editor",
   "keywords": [
     "nhn",
     "nhn cloud",
@@ -10,22 +10,22 @@
     "toast-ui",
     "editor",
     "plugin",
-    "color-syntax",
-    "color-picker"
+    "text-align",
+    "align"
   ],
-  "main": "dist/toastui-editor-plugin-color-syntax.js",
+  "main": "dist/toastui-editor-plugin-details.js",
   "files": [
-    "dist/*.js",
-    "dist/*.css",
-    "types/index.d.ts"
+    "dist",
+    "src",
+    "index.d.ts"
   ],
-  "types": "types/index.d.ts",
+  "types": "index.d.ts",
   "author": "NHN Cloud FE Development Lab <dl_javascript@nhn.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/natorus87/tui.editor.git",
-    "directory": "plugins/color-syntax"
+    "directory": "plugins/details"
   },
   "bugs": {
     "url": "https://github.com/natorus87/tui.editor/issues"
@@ -40,16 +40,12 @@
     "serve": "snowpack dev",
     "serve:ie": "webpack serve",
     "build:cdn": "webpack build --env cdn & webpack build --env cdn minify",
-    "build": "webpack build && npm run build:cdn"
+    "build": "webpack build --no-stats"
   },
   "devDependencies": {
     "cross-env": "^6.0.3"
   },
-  "dependencies": {
-    "tui-color-picker": "^2.2.6"
-  },
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "cbc7cab7b3f081a1aaf1d338b8138512ace132b9"
+  }
 }
