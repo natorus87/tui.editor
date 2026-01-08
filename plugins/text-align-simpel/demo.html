@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Toast UI Editor Text Align Plugin Demo</title>
+    <!-- CORE EDITOR (Local Build) -->
+    <link rel="stylesheet" href="../../apps/editor/dist/toastui-editor.css?v=fixed7" />
+    <link rel="stylesheet" href="../../apps/editor/dist/theme/toastui-editor-dark.css?v=fixed7" />
+    <link rel="stylesheet" href="./dist/toastui-editor-plugin-text-align.css" />
+
+    <!-- PLUGINS CSS -->
+    <link rel="stylesheet" href="../../node_modules/tui-color-picker/dist/tui-color-picker.css" />
+    <link rel="stylesheet" href="../color-syntax/dist/cdn/toastui-editor-plugin-color-syntax.css" />
+    <link rel="stylesheet" href="../code-syntax-highlight/dist/cdn/toastui-editor-plugin-code-syntax-highlight.css" />
+    <link rel="stylesheet" href="../details/src/css/plugin.css" />
+    <!-- PrismJS Theme (Optional, usually included or extern) - using default simple one if not bundled -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css" />
+
+    <style>
+        body {
+            /* Dynamic Theme Variables */
+            --toastui-editor-toolbar-bg: #232428;
+            /* Using the CORE variable now */
+            background-color: #333;
+            color: #eee;
+        }
+
+        #editor {
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Text Align Plugin Demo (Core Refactor)</h1>
+
+    <div style="margin-bottom: 20px;">
+        <label for="bgColor">Toolbar Color: </label>
+        <input type="color" id="bgColor" value="#232428">
+    </div>
+
+    <div id="editor"></div>
+
+    <button id="toggleMode">Switch to WYSIWYG</button>
+
+    <!-- CORE EDITOR JS (Local Build) -->
+    <script src="../../apps/editor/dist/cdn/toastui-editor-all.js"></script>
+    <script src="../../apps/editor/dist/i18n/de-de.js"></script>
+
+    <!-- PLUGINS JS -->
+    <script src="../../node_modules/tui-color-picker/dist/tui-color-picker.js"></script>
+    <script src="./dist/toastui-editor-plugin-text-align.js?v=7"></script>
+    <script src="../color-syntax/dist/cdn/toastui-editor-plugin-color-syntax.js"></script>
+    <script src="../code-syntax-highlight/dist/cdn/toastui-editor-plugin-code-syntax-highlight-all.js"></script>
+    <script src="../details/dist/toastui-editor-plugin-details.js"></script>
+
+    <script>
+        const Editor = toastui.Editor;
+        const textAlignPlugin = toastui.Editor.plugin.textAlign;
+        const colorSyntaxPlugin = toastui.Editor.plugin.colorSyntax;
+        const codeSyntaxHighlightPlugin = toastui.Editor.plugin.codeSyntaxHighlight;
+        const detailsPlugin = toastui.Editor.plugin.details;
+
+        const editor = new Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            theme: 'dark',
+            language: 'de-DE',
+            plugins: [textAlignPlugin, colorSyntaxPlugin, codeSyntaxHighlightPlugin, detailsPlugin]
+        });
+        window.editor = editor;
+
+        document.getElementById('toggleMode').addEventListener('click', () => {
+            if (editor.isWysiwygMode()) {
+                editor.changeMode('markdown');
+                document.getElementById('toggleMode').textContent = 'Switch to WYSIWYG';
+            } else {
+                editor.changeMode('wysiwyg');
+                document.getElementById('toggleMode').textContent = 'Switch to Markdown';
+            }
+        });
+
+        // Dynamic Background Logic - NOW UPDATING CORE VARIABLE
+        document.getElementById('bgColor').addEventListener('input', (e) => {
+            document.body.style.setProperty('--toastui-editor-toolbar-bg', e.target.value);
+        });
+    </script>
+</body>
+
+</html>

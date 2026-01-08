@@ -30,6 +30,7 @@
 | [`@licium/editor-plugin-table-merged-cell`](./plugins/table-merged-cell) | Table cell merging support |
 | [`@licium/editor-plugin-uml`](./plugins/uml) | UML diagram rendering |
 | [`@licium/editor-plugin-text-align`](./plugins/text-align) | **[NEW]** Text alignment (Left/Center/Right) |
+| [`@licium/editor-plugin-text-align-simpel`](./plugins/text-align-simpel) | **[NEW]** Simple Text alignment (Left/Center only) |
 | [`@licium/editor-plugin-details`](./plugins/details) | **[NEW]** Collapsible/spoiler blocks |
 | [`@licium/editor-plugin-emoji`](./plugins/emoji) | **[NEW]** Emoji picker |
 

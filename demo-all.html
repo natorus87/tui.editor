@@ -69,7 +69,7 @@
     <div id="editor"></div>
 
     <!-- Core Editor JS -->
-    <script src="./apps/editor/dist/cdn/toastui-editor-all.js"></script>
+    <script src="./apps/editor/dist/cdn/toastui-editor-all.js?v=1767858600"></script>
 
     <!-- Dependencies JS -->
     <script src="./node_modules/@toast-ui/chart/dist/toastui-chart.min.js"></script>
@@ -90,19 +90,20 @@
 
 
     <!-- Plugins JS -->
-    <script src="./plugins/chart/dist/cdn/toastui-editor-plugin-chart.min.js"></script>
+    <script src="./plugins/chart/dist/cdn/toastui-editor-plugin-chart.min.js?v=i18n"></script>
     <script
-        src="./plugins/code-syntax-highlight/dist/cdn/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
-    <script src="./plugins/color-syntax/dist/cdn/toastui-editor-plugin-color-syntax.min.js"></script>
-    <script src="./plugins/table-merged-cell/dist/cdn/toastui-editor-plugin-table-merged-cell.min.js"></script>
-    <script src="./plugins/text-align/dist/cdn/toastui-editor-plugin-text-align.min.js"></script>
-    <script src="./plugins/uml/dist/cdn/toastui-editor-plugin-uml.min.js"></script>
-    <script src="./plugins/details/dist/toastui-editor-plugin-details.js"></script>
-    <script src="./plugins/emoji/dist/cdn/toastui-editor-plugin-emoji.js"></script>
+        src="./plugins/code-syntax-highlight/dist/cdn/toastui-editor-plugin-code-syntax-highlight-all.min.js?v=i18n"></script>
+    <script src="./plugins/color-syntax/dist/cdn/toastui-editor-plugin-color-syntax.min.js?v=i18n"></script>
+    <script src="./plugins/table-merged-cell/dist/cdn/toastui-editor-plugin-table-merged-cell.min.js?v=i18n"></script>
+    <script src="./plugins/text-align/dist/cdn/toastui-editor-plugin-text-align.min.js?v=i18n"></script>
+    <script src="./plugins/text-align-simpel/dist/cdn/toastui-editor-plugin-text-align-simpel.min.js?v=i18n"></script>
+    <script src="./plugins/uml/dist/cdn/toastui-editor-plugin-uml.min.js?v=i18n"></script>
+    <script src="./plugins/details/dist/toastui-editor-plugin-details.js?v=i18n"></script>
+    <script src="./plugins/emoji/dist/cdn/toastui-editor-plugin-emoji.min.js?v=i18n"></script>
 
     <script>
         const { Editor } = toastui;
-        const { chart, codeSyntaxHighlight, colorSyntax, tableMergedCell, textAlign, uml, details, emoji } = Editor.plugin;
+        const { chart, codeSyntaxHighlight, colorSyntax, tableMergedCell, textAlign, textAlignSimpel, uml, details, emoji } = Editor.plugin;
 
         const editor = new Editor({
             el: document.querySelector('#editor'),
@@ -110,12 +111,14 @@
             initialEditType: 'markdown',
             previewStyle: 'vertical',
             theme: 'dark',
+            language: 'de-DE',
             plugins: [
                 [chart, { usageStatistics: false }],
                 [codeSyntaxHighlight, { highlighter: Prism }],
                 colorSyntax,
                 tableMergedCell,
                 [textAlign, { alignAttribute: 'class' }], // Assuming default config
+                [textAlignSimpel, { alignAttribute: 'class' }],
                 [uml, { rendererURL: 'https://www.plantuml.com/plantuml/png/' }],
                 details,
                 emoji

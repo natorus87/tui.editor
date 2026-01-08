@@ -3,6 +3,14 @@
 ## [Unreleased] - 2026-01-06
 
 ### 🎨 Visual & UI Refinements
+- **Color Syntax & Dark Mode**:
+    -   **FIXED**: Text color is now correctly preserved and visible in WYSIWYG mode (Dark Mode). Resolved an issue where sanitizer was stripping `style` attributes.
+    -   **NEW**: Added "Clear" button to the Color Picker to remove text color.
+- **Internationalization (i18n)**:
+    -   **NEW**: Added full multilingual support (23 languages) to `emoji`, `text-align`, and `details` plugins.
+    -   **FIXED**: Resolved a crash in the demo page caused by missing 'Clear' translation keys in `en-US` and `de-DE`.
+- **New Plugin (`text-align-simpel`)**:
+    -   **NEW**: Released `@licium/editor-plugin-text-align-simpel`, a simplified alignment plugin supporting only Left and Center alignment.
 - **Toolbar Layout Strategy**: Switched from `space-between` to `flex-start` (left-aligned) with fixed gaps (`15px`) to prevent dynamic jumping.
     -   Used CSS `:has()` selector to force the 'Scroll' toggle group to the far right.
 - **Icon Updates (Final Polish)**:

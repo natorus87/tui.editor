@@ -51,6 +51,7 @@ Editor.setLanguage(['de', 'de-DE'], {
   'Would you like to paste as table?': 'Möchten Sie eine Tabelle einfügen?',
   'Text color': 'Textfarbe',
   'Auto scroll enabled': 'Autoscrollen aktiviert',
-  'Auto scroll disabled': 'Autoscrollen deaktiviert',
+  'Auto scroll disabled': 'Auto. Scrollen ausgeschaltet',
   'Choose language': 'Sprache auswählen',
+  Clear: 'Zurücksetzen',
 });

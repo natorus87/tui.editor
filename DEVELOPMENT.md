@@ -262,3 +262,20 @@ npm run build
 ```
 (Check `package.json` scripts for specifics as some plugins separate these).
 
+## Recent Technical Fixes (Jan 2026)
+
+### Color Syntax Plugin - Dark Mode Visibility
+- **Issue**: Text color applied via the Color Syntax plugin was not visible in WYSIWYG mode (especially in Dark Mode) because the `style` attribute was being stripped from the `span` tags during rendering.
+- **Root Cause**: The `toDOM` function for `htmlInline` marks (in `apps/editor/src/wysiwyg/nodes/html.ts`) was calling `sanitizeDOM`, which internally used `DOMPurify`. Even with `style` allowed, the sanitization process on `outerHTML` was removing the attribute in the editor's specific context.
+- **Fix**: Modified `htmlInline.toDOM` to bypass `sanitizeDOM` and directly use `node.attrs.htmlAttrs` from the ProseMirror node. This ensures that valid attributes stored in the document model are rendered to the DOM without interference.
+- **Feature**: Added a "Clear" button to the Color Picker UI to easily remove color formatting.
+
+### Plugin Internationalization (i18n)
+- **Improvement**: Implemented comprehensive i18n support for `emoji`, `text-align`, and `details` plugins.
+- **Coverage**: All 23 languages supported by the core editor (e.g., `de-DE`, `es-ES`, `ja-JP`) are now available in these plugins.
+- **Key Fix**: Added missing 'Clear'/'Zurücksetzen' keys to `en-us.ts` and `de-de.ts` to prevent editor initialization crashes when using the `color-syntax` plugin in those locales.
+
+### New Plugins
+- **Text Align Simpel**: Created `@licium/editor-plugin-text-align-simpel`.
+    - **Purpose**: A simplified version of `text-align` that supports only **Left** and **Center** alignment (no Right align).
+    - **Usage**: Drop-in addition or replacement for the standard `text-align` plugin.
