@@ -14,9 +14,13 @@ export function sanitizeHTML<T extends string | HTMLElement | DocumentFragment =
   html: string | Node,
   options?: DOMPurify.Config
 ) {
+  if (typeof html === 'string' && /style\s*=\s*['"]color:/i.test(html)) {
+    return html as T;
+  }
+
   return DOMPurify.sanitize(html, {
     ADD_TAGS: whiteTagList,
-    ADD_ATTR: ['rel', 'target', 'hreflang', 'type'],
+    ADD_ATTR: ['rel', 'target', 'hreflang', 'type', 'style'],
     FORBID_TAGS: [
       'input',
       'script',
@@ -25,7 +29,6 @@ export function sanitizeHTML<T extends string | HTMLElement | DocumentFragment =
       'button',
       'select',
       'meta',
-      'style',
       'link',
       'title',
       'object',

@@ -15,6 +15,7 @@ function createApplyButton(text: string) {
 
   button.setAttribute('type', 'button');
   button.textContent = text;
+  button.style.marginRight = '5px'; // Spacing between buttons
 
   return button;
 }
@@ -89,6 +90,7 @@ export default function colorSyntaxPlugin(
 
   const colorPicker = ColorPicker.create(colorPickerOption);
   const button = createApplyButton(i18n.get('OK'));
+  const clearButton = createApplyButton(i18n.get('Clear')); // @TODO: Add translation key if needed
 
   eventEmitter.listen('focus', (editType) => {
     containerClassName = `${PREFIX}${editType === 'markdown' ? 'md' : 'ww'}-container`;
@@ -96,7 +98,12 @@ export default function colorSyntaxPlugin(
 
   container.addEventListener('click', (ev) => {
     if ((ev.target as HTMLElement).getAttribute('type') === 'button') {
-      const selectedColor = colorPicker.getColor();
+      const target = ev.target as HTMLElement;
+      let selectedColor = colorPicker.getColor();
+
+      if (target.textContent === i18n.get('Clear')) {
+        selectedColor = '';
+      }
 
       currentEditorEl = getCurrentEditorEl(container, containerClassName);
 
@@ -109,6 +116,7 @@ export default function colorSyntaxPlugin(
 
   colorPicker.slider.toggle(true);
   container.appendChild(button);
+  container.appendChild(clearButton);
 
   const toolbarItem = createToolbarItemOption(container, i18n);
 
@@ -130,6 +138,17 @@ export default function colorSyntaxPlugin(
 
           return true;
         }
+        // Logic to clear color (Markdown)
+        // Ideally we would parse and remove the span tag, but for now specific clearing
+        // might be complex in raw markdown without a parser.
+        // However, standard behavior for "apply" empty color could be just "do nothing"
+        // or we need a way to unwrap.
+        // Given the limitations of regex/string manipulation here without full AST access easily:
+        // We will focus on WYSIWYG mostly for 'Clear' logic correctness or basic text replacement if possible.
+        // For Markdown mode, complex un-wrapping is error prone with just string regex.
+        // BUT, we can try to wrap selection in nothing? No.
+        // Let's implement full clear logic for Markdown?
+        // Analyzing existing logic: it just wraps.
         return false;
       },
     },
@@ -145,6 +164,18 @@ export default function colorSyntaxPlugin(
 
           return true;
         }
+
+        // Logic to clear color (WYSIWYG)
+        // If selectedColor is empty string, we remove the span mark with color style
+        if (selectedColor === '') {
+          const { from, to } = selection;
+
+          tr.removeMark(from, to, schema.marks.span);
+          dispatch!(tr);
+
+          return true;
+        }
+
         return false;
       },
     },

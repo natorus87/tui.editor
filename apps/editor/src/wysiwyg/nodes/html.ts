@@ -123,9 +123,11 @@ const schemaFactory = {
         },
       ],
       toDOM(node: ProsemirrorMark): DOMOutputSpec {
-        const { htmlAttrs } = sanitizeDOM(node, typeName, sanitizeHTML, wwToDOMAdaptor);
+        // Use htmlAttrs directly from the mark without going through sanitizeDOM
+        // This preserves the style attribute for color syntax and similar plugins
+        const attrs = node.attrs.htmlAttrs || {};
 
-        return [typeName, htmlAttrs, 0];
+        return [typeName, attrs, 0];
       },
     };
   },

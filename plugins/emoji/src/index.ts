@@ -1,4 +1,5 @@
 import { PluginContext, I18n } from '@licium/editor';
+import { addLangs } from './i18n/langs';
 import './css/plugin.css';
 
 const EMOJIS = [
@@ -47,6 +48,8 @@ const EMOJIS = [
 export default function emojiPlugin(context: PluginContext) {
     const { eventEmitter, i18n } = context;
 
+    addLangs(i18n);
+
     const container = document.createElement('div');
     container.className = 'toastui-editor-popup-emoji';
 
@@ -63,7 +66,7 @@ export default function emojiPlugin(context: PluginContext) {
 
     const toolbarItem = {
         name: 'emoji',
-        tooltip: 'Insert Emoji',
+        tooltip: i18n.get('emoji'),
         className: 'toastui-editor-toolbar-icons emoji',
         popup: {
             className: 'toastui-editor-popup-emoji-wrapper',
