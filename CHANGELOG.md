@@ -1,6 +1,14 @@
 # Changelog
 
-## 3.2.11 (2026-01-08)
+## 3.2.12 (2026-01-08)
+
+### 🐛 Bug Fixes & UX Improvements
+- **Color Syntax Plugin**:
+    -   **FIXED**: Resolved layout issue where "OK" and "Reset" buttons overlapped (German locale).
+    -   **FIXED**: Prevented editor from scrolling to top when confirming color selection.
+    -   **FIXED**: Increased popup width to accommodate longer translation strings.
+
+
 
 ### 🎨 Visual & UI Refinements
 - **Color Syntax & Dark Mode**:

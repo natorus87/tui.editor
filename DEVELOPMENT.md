@@ -117,6 +117,37 @@ A Docker-based reproduction environment helps in isolating bugs.
 -   **Dependencies**: All dependencies (ProseMirror, etc.) are bundled, avoiding Import Map complexity and version mismatches.
 -   **CSS**: Uses the bundled CSS from `dist/cdn`.
 
+### Running the "All Plugins" Demo
+
+The `demo-all.html` file provides a comprehensive environment to test the editor with all official plugins enabled.
+
+#### Prerequisites
+1.  **Build the Project**: You must build the project to generate the CDN artifacts used by the demo.
+    ```bash
+    npm run build:all
+    ```
+    *Note: `npm run build:cdn` may not exist or be sufficient in all environments. `build:all` ensures `toastui-editor-all.js` and all plugin bundles are up-to-date.*
+
+2.  **Serve Locally**:
+    Start a simple HTTP server in the root directory.
+    ```bash
+    python3 -m http.server 8080
+    ```
+
+3.  **Access**:
+    Open [http://localhost:8080/demo-all.html](http://localhost:8080/demo-all.html).
+
+#### Common Issues
+-   **Missing Translations (i18n)**:
+    If utilizing a non-English locale (e.g., `de-DE`), ensure the corresponding language file is explicitly loaded in `demo-all.html` **after** the main editor script.
+    ```html
+    <script src="./apps/editor/dist/cdn/toastui-editor-all.js"></script>
+    <!-- Explicitly load the locale file if the bundle is missing keys -->
+    <script src="./apps/editor/dist/cdn/i18n/de-de.js"></script>
+    ```
+    *Reason*: The main bundle (`toastui-editor-all.js`) might lag behind the specific language files during development, leading to missing keys (e.g., `"Clear"` button in Color Syntax).
+
+
 ## Troubleshooting & Lessons Learned
 
 ### Node.js Compatibility
@@ -269,6 +300,11 @@ npm run build
 - **Root Cause**: The `toDOM` function for `htmlInline` marks (in `apps/editor/src/wysiwyg/nodes/html.ts`) was calling `sanitizeDOM`, which internally used `DOMPurify`. Even with `style` allowed, the sanitization process on `outerHTML` was removing the attribute in the editor's specific context.
 - **Fix**: Modified `htmlInline.toDOM` to bypass `sanitizeDOM` and directly use `node.attrs.htmlAttrs` from the ProseMirror node. This ensures that valid attributes stored in the document model are rendered to the DOM without interference.
 - **Feature**: Added a "Clear" button to the Color Picker UI to easily remove color formatting.
+
+### Color Syntax Plugin - UX Improvements
+- **Layout Fix**: Resolved issue where "OK" and "Clear" (Zurücksetzen) buttons overlapped in languages with longer labels (e.g., German). Removed absolute positioning and implemented a flexbox container.
+- **Scroll Just Fix**: Fixed a bug where confirming a color selection cause the editor to scroll to the top unexpectedly. Implemented `{ preventScroll: true }` on focus restoration.
+
 
 ### Plugin Internationalization (i18n)
 - **Improvement**: Implemented comprehensive i18n support for `emoji`, `text-align`, and `details` plugins.

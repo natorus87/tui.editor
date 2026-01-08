@@ -110,13 +110,19 @@ export default function colorSyntaxPlugin(
       eventEmitter.emit('command', 'color', { selectedColor });
       eventEmitter.emit('closePopup');
       // force the current editor to focus for preventing to lose focus
-      currentEditorEl.focus();
+      currentEditorEl.focus({ preventScroll: true });
     }
   });
 
   colorPicker.slider.toggle(true);
-  container.appendChild(button);
-  container.appendChild(clearButton);
+
+  const buttonContainer = document.createElement('div');
+
+  buttonContainer.className = `${PREFIX}button-container`;
+
+  buttonContainer.appendChild(button);
+  buttonContainer.appendChild(clearButton);
+  container.appendChild(buttonContainer);
 
   const toolbarItem = createToolbarItemOption(container, i18n);
 
