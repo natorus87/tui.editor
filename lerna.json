@@ -1,6 +1,6 @@
 {
   "packages": ["apps/*", "plugins/*", "libs/*"],
-  "version": "3.2.11",
+  "version": "3.2.12",
   "command": {
     "publish": {
       "access": "public"
