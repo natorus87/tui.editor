@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased] - 2026-01-06
+## 3.2.11 (2026-01-08)
 
 ### 🎨 Visual & UI Refinements
 - **Color Syntax & Dark Mode**:
