@@ -1,5 +1,9 @@
 {
-  "packages": ["apps/*", "plugins/*", "libs/*"],
+  "packages": [
+    "apps/*",
+    "plugins/*",
+    "libs/*"
+  ],
   "version": "3.2.13",
   "command": {
     "publish": {
