@@ -32,5 +32,6 @@
   },
   "dependencies": {
     "tui-color-picker": "^2.2.8"
-  }
+  },
+  "gitHead": "019ce2e0c8210746f0072903ebec7efe79a8374a"
 }
