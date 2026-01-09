@@ -65,6 +65,7 @@
 }
 
 .toastui-editor-popup-color button:hover {
+  background-color: #dff4ff !important;
   border-color: #cbcfdb;
 }
 

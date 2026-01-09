@@ -1,0 +1,155 @@
+/* Base tag style if needed, though mostly using inline styles now */
+mark {
+    color: inherit;
+    padding: 2px 0;
+}
+
+/* Toolbar Icon Styles */
+.toastui-editor-toolbar-icons.highlight {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMDAwIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDZMNyAxOGgybDEtM2g0bDEgM2gyTTEyIDZ6bS0xIDdsMS0zIDEgM2gtMnoiLz48L3N2Zz4=') !important;
+    background-size: 24px 24px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.toastui-editor-dark .toastui-editor-toolbar-icons.highlight {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmZmIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTEyIDZMNyAxOGgybDEtM2g0bDEgM2gyTTEyIDZ6bS0xIDdsMS0zIDEgM2gtMnoiLz48L3N2Zz4=') !important;
+}
+
+/* Popup Styles (Adapted from color-syntax) */
+.toastui-editor-popup-highlight {
+    padding: 0;
+}
+
+.toastui-editor-popup-highlight .tui-colorpicker-container,
+.toastui-editor-popup-highlight .tui-colorpicker-palette-container {
+    width: 178px;
+}
+
+.toastui-editor-popup-highlight .tui-colorpicker-container ul {
+    width: 178px;
+    margin-bottom: 10px;
+}
+
+.toastui-editor-popup-highlight .tui-colorpicker-container li {
+    padding: 0 3px 3px 0;
+}
+
+.toastui-editor-popup-highlight .tui-colorpicker-container li .tui-colorpicker-palette-button {
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+}
+
+.toastui-editor-popup-highlight .tui-popup-body {
+    padding: 10px;
+}
+
+.toastui-editor-popup-highlight .tui-colorpicker-container .tui-colorpicker-palette-toggle-slider {
+    display: none;
+}
+
+.toastui-editor-popup-highlight .tui-colorpicker-container .tui-colorpicker-svg-slider {
+    border-radius: 3px;
+    border: solid 1px rgba(0, 0, 0, 0.05);
+}
+
+
+.toastui-editor-popup-highlight .tui-colorpicker-palette-hex {
+    float: right;
+}
+
+.toastui-editor-popup-body input[type='text'].tui-colorpicker-palette-hex {
+    font-family: inherit;
+    font-size: 13px;
+    height: 24px;
+    width: 65px;
+    padding: 3px 25px 3px 10px;
+    border: 1px solid #e1e3e9;
+    border-radius: 2px;
+    float: left;
+}
+
+.toastui-editor-popup-highlight button {
+    height: 32px;
+    color: #555;
+    background: #f7f9fc;
+    border: 1px solid #e1e3e9;
+    cursor: pointer;
+    padding: 0 8px;
+    width: auto;
+    min-width: 40px;
+}
+
+.toastui-editor-popup-highlight button:hover {
+    background-color: #dff4ff !important;
+    border-color: #cbcfdb;
+}
+
+.toastui-editor-popup-highlight .tui-colorpicker-container div.tui-colorpicker-clearfix {
+    display: inline-block;
+    margin: 5px 0;
+    width: 102px;
+}
+
+.toastui-editor-popup-highlight .tui-colorpicker-container .tui-colorpicker-palette-preview {
+    margin-top: 8px;
+    margin-left: -22px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.toastui-editor-popup-highlight .tui-colorpicker-slider-container .tui-colorpicker-slider-right {
+    width: 19px;
+}
+
+.toastui-editor-popup-highlight .tui-colorpicker-slider-container .tui-colorpicker-svg-huebar {
+    border: solid 1px rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+    overflow: auto;
+}
+
+.toastui-editor-popup-highlight .tui-colorpicker-slider-container .tui-colorpicker-huebar-handle {
+    display: none;
+}
+
+/* Dark Mode Overrides */
+
+.toastui-editor-dark .toastui-editor-popup-body input[type='text'].tui-colorpicker-palette-hex {
+    border-color: #303238;
+}
+
+.toastui-editor-dark .toastui-editor-popup-highlight button {
+    color: #eee;
+    border-color: #303238;
+    background-color: #232428;
+}
+
+.toastui-editor-dark .toastui-editor-popup-highlight button:hover {
+    border-color: #494c56;
+}
+
+.toastui-editor-dark .toastui-editor-popup-highlight .tui-colorpicker-container li .tui-colorpicker-palette-button {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.toastui-editor-dark .toastui-editor-popup-highlight .tui-colorpicker-container .tui-colorpicker-svg-slider,
+.toastui-editor-dark .toastui-editor-popup-highlight .tui-colorpicker-slider-container .tui-colorpicker-svg-huebar {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.toastui-editor-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    padding-right: 2px;
+}
+
+.toastui-editor-button-container button {
+    margin-left: 5px;
+}

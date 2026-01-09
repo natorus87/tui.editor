@@ -267,6 +267,7 @@ Verified against `demo-all.html` (served via http-server).
 | **Code Syntax Highlight**| **PASS** | Works correctly with Prism. |
 | **Text Align** | **PASS** | Works correctly. Buttons relocated to Line/Quote group. |
 | **Emoji** | **PASS** | Works correctly. Dark mode supported. |
+| **Highlight** | **PASS** | Refactored to use `tui-color-picker` and inline styles. |
 
 ### Pending Fixes
 - **Chart/UML**: Investigate `$$` syntax support vs ``` code block support.
@@ -300,6 +301,11 @@ npm run build
 - **Root Cause**: The `toDOM` function for `htmlInline` marks (in `apps/editor/src/wysiwyg/nodes/html.ts`) was calling `sanitizeDOM`, which internally used `DOMPurify`. Even with `style` allowed, the sanitization process on `outerHTML` was removing the attribute in the editor's specific context.
 - **Fix**: Modified `htmlInline.toDOM` to bypass `sanitizeDOM` and directly use `node.attrs.htmlAttrs` from the ProseMirror node. This ensures that valid attributes stored in the document model are rendered to the DOM without interference.
 - **Feature**: Added a "Clear" button to the Color Picker UI to easily remove color formatting.
+
+### Highlight Plugin - Refactor
+- **Change**: Moved from CSS classes (`.hl-color`) to inline styles (`background-color: ...`).
+- **Reason**: Allows for arbitrary color selection via the Color Picker, removing the limitation of pre-defined palettes.
+- **Tech**: Reused `tui-color-picker` integration from the Color Syntax plugin for UI consistency.
 
 ### Color Syntax Plugin - UX Improvements
 - **Layout Fix**: Resolved issue where "OK" and "Clear" (Zurücksetzen) buttons overlapped in languages with longer labels (e.g., German). Removed absolute positioning and implemented a flexbox container.

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8" />
+    <title>Highlight Plugin Demo</title>
+    <!-- Editor -->
+    <link rel="stylesheet" href="../../../apps/editor/dist/cdn/toastui-editor.css" />
+    <link rel="stylesheet" href="../../../apps/editor/dist/cdn/theme/toastui-editor-dark.css" />
+    <!-- Plugin -->
+    <link rel="stylesheet" href="../dist/cdn/toastui-editor-plugin-highlight.min.css" />
+    <style>
+        body {
+            margin: 20px;
+            font-family: sans-serif;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .code-html {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Toast UI Editor - Highlight Plugin Demo</h1>
+    <div style="margin-bottom: 10px;">
+        <button id="toggle-theme">Toggle Dark Mode</button>
+        <button id="lang-en">English</button>
+        <button id="lang-de">German</button>
+    </div>
+    <div class="code-html">
+        <div id="editor"></div>
+    </div>
+    <!-- Editor -->
+    <script src="../../../apps/editor/dist/cdn/toastui-editor-all.js"></script>
+    <!-- Plugin -->
+    <script src="../dist/cdn/toastui-editor-plugin-highlight.min.js"></script>
+    <script class="code-js">
+        const { Editor } = toastui;
+        const { highlight } = Editor.plugin;
+        let editor;
+
+        function initEditor(lang) {
+            if (editor) editor.destroy();
+
+            const isDark = document.body.classList.contains('dark-theme');
+
+            editor = new Editor({
+                el: document.querySelector('#editor'),
+                previewStyle: 'vertical',
+                height: '500px',
+                initialEditType: 'markdown',
+                initialValue: '## Highlight Demo\n\nSelect text and use the highlight button (H icon).\n\n<mark class="hl hl-yellow">This is pre-highlighted text.</mark>\n',
+                plugins: [highlight],
+                language: lang,
+                theme: isDark ? 'dark' : 'light'
+            });
+            window.editor = editor;
+        }
+
+        initEditor('en-US');
+
+        document.getElementById('toggle-theme').addEventListener('click', () => {
+            const body = document.body;
+            body.classList.toggle('dark-theme');
+            const isDark = body.classList.contains('dark-theme');
+
+            if (isDark) {
+                editor.setOptions({ theme: 'dark' });
+                // Force class verification for demo purposes
+                document.querySelector('.toastui-editor-defaultUI').classList.add('toastui-editor-dark');
+                document.body.style.backgroundColor = '#333';
+                document.body.style.color = '#fff';
+            } else {
+                editor.setOptions({ theme: 'light' });
+                document.querySelector('.toastui-editor-defaultUI').classList.remove('toastui-editor-dark');
+                document.body.style.backgroundColor = '#fff';
+                document.body.style.color = '#000';
+            }
+        });
+
+        document.getElementById('lang-en').addEventListener('click', () => {
+            initEditor('en-US');
+        });
+
+        document.getElementById('lang-de').addEventListener('click', () => {
+            initEditor('de-DE');
+        });
+    </script>
+</body>
+
+</html>

@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="./plugins/text-align/dist/cdn/toastui-editor-plugin-text-align.min.css" />
     <link rel="stylesheet" href="./plugins/details/src/css/plugin.css" />
     <link rel="stylesheet" href="./plugins/emoji/dist/cdn/toastui-editor-plugin-emoji.css" />
+    <link rel="stylesheet" href="./plugins/highlight/dist/cdn/toastui-editor-plugin-highlight.min.css" />
 
     <style>
         body {
@@ -64,6 +65,7 @@
     <h1>Toast UI Editor - All Plugins Demo</h1>
     <div class="controls">
         <button id="toggleMode">Switch Mode</button>
+        <button id="toggleTheme">Toggle Theme</button>
         <button id="getMarkdown">Get Markdown</button>
     </div>
     <div id="editor"></div>
@@ -101,10 +103,12 @@
     <script src="./plugins/uml/dist/cdn/toastui-editor-plugin-uml.min.js?v=i18n"></script>
     <script src="./plugins/details/dist/toastui-editor-plugin-details.js?v=i18n"></script>
     <script src="./plugins/emoji/dist/cdn/toastui-editor-plugin-emoji.min.js?v=i18n"></script>
+    <script src="./plugins/highlight/dist/cdn/toastui-editor-plugin-highlight.min.js?v=i18n"></script>
 
     <script>
         const { Editor } = toastui;
-        const { chart, codeSyntaxHighlight, colorSyntax, tableMergedCell, textAlign, textAlignSimpel, uml, details, emoji } = Editor.plugin;
+        const { chart, codeSyntaxHighlight, colorSyntax, tableMergedCell, textAlign, textAlignSimpel, uml, details, emoji, highlight } = Editor.plugin;
+
 
         const editor = new Editor({
             el: document.querySelector('#editor'),
@@ -122,9 +126,13 @@
                 [textAlignSimpel, { alignAttribute: 'class' }],
                 [uml, { rendererURL: 'https://www.plantuml.com/plantuml/png/' }],
                 details,
-                emoji
+                emoji,
+                highlight
             ],
             initialValue: `## All Plugins Demo
+
+### Highlight
+<mark style="background-color: #fff3a0">This text is highlighted in yellow</mark> and this <mark style="background-color: #ffc2e2">is pink</mark>.
 
 ### Details
 <details open="">
@@ -172,6 +180,30 @@ console.log(foo);
 
         document.getElementById('toggleMode').addEventListener('click', () => {
             editor.changeMode(editor.isMarkdownMode() ? 'wysiwyg' : 'markdown');
+        });
+
+        document.getElementById('toggleTheme').addEventListener('click', () => {
+            const body = document.body;
+            const editorContainer = document.querySelector('.toastui-editor-defaultUI');
+
+            // Toggle body class for page background
+            if (body.style.backgroundColor === 'rgb(255, 255, 255)') {
+                // Switch to Dark
+                body.style.backgroundColor = '#1a1a1a';
+                body.style.color = '#f0f0f0';
+                document.querySelector('h1').style.color = '#fff';
+
+                // Add dark theme CSS class to editor container
+                if (editorContainer) editorContainer.classList.add('toastui-editor-dark');
+            } else {
+                // Switch to Light
+                body.style.backgroundColor = '#ffffff';
+                body.style.color = '#000000';
+                document.querySelector('h1').style.color = '#000';
+
+                // Remove dark theme CSS class from editor container
+                if (editorContainer) editorContainer.classList.remove('toastui-editor-dark');
+            }
         });
 
         document.getElementById('getMarkdown').addEventListener('click', () => {

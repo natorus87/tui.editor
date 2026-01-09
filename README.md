@@ -33,6 +33,7 @@
 | [`@licium/editor-plugin-text-align-simpel`](./plugins/text-align-simpel) | **[NEW]** Simple Text alignment (Left/Center only) |
 | [`@licium/editor-plugin-details`](./plugins/details) | **[NEW]** Collapsible/spoiler blocks |
 | [`@licium/editor-plugin-emoji`](./plugins/emoji) | **[NEW]** Emoji picker |
+| [`@licium/editor-plugin-highlight`](./plugins/highlight) | **[NEW]** Text highlighting with color picker |
 
 ![Chart and Details Plugins in Dark Mode](docs/images/feature-chart-dark.png)
 
@@ -50,6 +51,7 @@
         -   **Strike & Task List**: Updated to new geometric designs (White Stroke) in Dark Mode.
         -   **Table**: Updated to white filled/outline version in Dark Mode.
     -   **Table Icon**: New "Outline with Header Row" design (Header + Grid) for better clarity.
+    -   **Highlight & Color Syntax**: Unified "Light Blue" hover effects in Light Mode for a more polished feel.
 
 ### 🖇️ Plugin Improvements
 - **Details Plugin**:

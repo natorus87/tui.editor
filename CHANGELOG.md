@@ -1,5 +1,20 @@
 # Changelog
 
+## 3.2.13 (2026-01-09)
+
+### 🚀 Features & Refactors
+- **Highlight Plugin Overhaul**:
+    -   **Refactor**: Completely rewrote the plugin to use `tui-color-picker` (matching the Color Syntax plugin).
+    -   **Inline Styles**: Switched from CSS classes (`.hl-red`) to inline styles (`background-color: #...`), allowing for **any** highlight color.
+    -   **UI Polish**: Added "Reset" (Zurücksetzen) button and full internationalization support.
+    -   **Hover Effects**: Implemented a **Light Blue (`#dff4ff`)** hover effect for popup buttons in Light Mode (matching the Headings plugin), while retaining Dark Mode consistency.
+
+### 🐛 Bug Fixes
+- **Demo Page**:
+    -   **FIXED**: Theme toggle logic in `demo-all.html` now correctly switches between Light and Dark modes without errors, fixing the "Black Buttons" issue in specific states.
+- **UI Consistency**:
+    -   **FIXED**: Applied `!important` to popup button hover styles to ensure consistent appearance across all integration themes.
+
 ## 3.2.12 (2026-01-08)
 
 ### 🐛 Bug Fixes & UX Improvements
