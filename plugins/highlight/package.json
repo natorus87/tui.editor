@@ -1,36 +1,36 @@
 {
-    "name": "@licium/editor-plugin-highlight",
-    "version": "3.2.12",
-    "description": "Highlight plugin for Toast UI Editor",
-    "author": "NHN Cloud FE Development Lab <dl_javascript@nhn.com>",
-    "license": "MIT",
-    "main": "dist/toastui-editor-plugin-highlight.js",
-    "module": "dist/esm/index.js",
-    "types": "index.d.ts",
-    "files": [
-        "dist",
-        "index.d.ts"
-    ],
-    "scripts": {
-        "build": "webpack build && npm run build:cdn",
-        "build:cdn": "webpack build --env cdn & webpack build --env cdn minify",
-        "lint": "eslint .",
-        "test": "jest"
-    },
-    "peerDependencies": {
-        "@licium/editor": "^3.2.12"
-    },
-    "devDependencies": {
-        "@types/jest": "^29.0.0",
-        "css-loader": "^6.7.1",
-        "style-loader": "^3.3.1",
-        "ts-loader": "^9.3.0",
-        "typescript": "^4.6.3",
-        "webpack": "^5.72.0",
-        "webpack-cli": "^4.9.2",
-        "webpack-merge": "^5.8.0"
-    },
-    "dependencies": {
-        "tui-color-picker": "^2.2.8"
-    }
+  "name": "@licium/editor-plugin-highlight",
+  "version": "3.2.13",
+  "description": "Highlight plugin for Toast UI Editor",
+  "author": "NHN Cloud FE Development Lab <dl_javascript@nhn.com>",
+  "license": "MIT",
+  "main": "dist/toastui-editor-plugin-highlight.js",
+  "module": "dist/esm/index.js",
+  "types": "index.d.ts",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "build": "webpack build && npm run build:cdn",
+    "build:cdn": "webpack build --env cdn & webpack build --env cdn minify",
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "peerDependencies": {
+    "@licium/editor": "^3.2.12"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.0",
+    "css-loader": "^6.7.1",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.0",
+    "typescript": "^4.6.3",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "tui-color-picker": "^2.2.8"
+  }
 }
