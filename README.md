@@ -52,6 +52,10 @@
         -   **Table**: Updated to white filled/outline version in Dark Mode.
     -   **Table Icon**: New "Outline with Header Row" design (Header + Grid) for better clarity.
     -   **Highlight & Color Syntax**: Unified "Light Blue" hover effects in Light Mode for a more polished feel.
+- **Highlight Plugin Overhaul**:
+    -   **Refactor**: Completely rewrote the plugin to use `tui-color-picker` (matching the Color Syntax plugin).
+    -   **Inline Styles**: Switched from CSS classes (`.hl-red`) to inline styles (`background-color: #...`), allowing for **any** highlight color.
+    -   **UI Polish**: Added "Reset" (Zurücksetzen) button and full internationalization support.
 
 ### 🖇️ Plugin Improvements
 - **Details Plugin**:
