@@ -219,6 +219,14 @@ We use `lerna` to manage multi-package releases.
     -   This is supported by the default `htmlInline` renderer and bypasses block-level schema restrictions.
     -   *Example*: Text Alignment plugin uses `<span style="display: block; text-align: center">...</span>`.
 
+#### ProseMirror Plugin Architecture
+-   **Factory Functions**: When injecting ProseMirror plugins via `wysiwygPlugins`, you MUST provide an **array of factory functions**, not plugin instances.
+    -   *Bad*: `wysiwygPlugins: [new Plugin({...})]` -> Causes `TypeError: plugin is not a function`.
+    -   *Good*: `wysiwygPlugins: [() => new Plugin({...})]`.
+-   **Bundling & Classes**: If your plugin uses `prosemirror-state`'s `Plugin` class, ensure it is correctly imported or bundled.
+    -   In some Webpack setups, the `Plugin` class might be undefined at runtime if not handled carefully.
+    -   *Pattern*: Inline the factory and add a safety check: `if (typeof Plugin === 'undefined') return {};` or ensure `prosemirror-state` is provided via `externals` or bundled dependencies.
+
 #### Markdown Command Parsing
 -   **Robustness**: When implementing toggle logic in Markdown commands, use loose **Regex** to detect existing wrapping tags.
 -   **Reason**: Attributes order or whitespace might vary. strict string matching will fail often.

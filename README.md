@@ -62,6 +62,7 @@
     -   Fixed `Enter` key behavior (now correctly creates single new lines inside the block).
     -   Addressed nested content serialization data loss issues.
     -   Relocated "Collapsible Block" toolbar button to the "CodeBlock" group.
+    -   **Critical Fixes**: Resolved initialization crashes and toggle interactivity issues in WYSIWYG mode.
 - **Text Align Plugin**:
     -   Relocated buttons to the **Line / Blockquote** group for improved toolbar organization.
 - **Emoji Plugin**:

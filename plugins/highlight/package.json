@@ -1,6 +1,6 @@
 {
   "name": "@licium/editor-plugin-highlight",
-  "version": "3.2.13",
+  "version": "3.2.14",
   "description": "Highlight plugin for Toast UI Editor",
   "author": "NHN Cloud FE Development Lab <dl_javascript@nhn.com>",
   "license": "MIT",

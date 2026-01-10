@@ -50,8 +50,9 @@
 - **Details Plugin**:
     -   Fixed `Enter` key behavior (now correctly creates single new lines inside the block).
     -   Address nested content serialization data loss issues.
-    -   Address nested content serialization data loss issues.
     -   Relocated "Collapsible Block" toolbar button to the "CodeBlock" group.
+    -   **FIXED**: Resolved critical "Plugin is not a function" initialization error by standardizing `wysiwygPlugins` factory pattern.
+    -   **FIXED**: Toggle/Collapse interaction now works immediately for newly inserted blocks in WYSIWYG mode.
 - **Text Align Plugin**:
     -   Relocated buttons to the **Line / Blockquote** group for improved toolbar organization.
 - **Emoji Plugin**:

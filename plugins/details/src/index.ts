@@ -1,10 +1,68 @@
 /* eslint-disable */
+import { Plugin } from 'prosemirror-state';
 import type { PluginContext, PluginInfo, I18n, MdNode } from '@licium/editor';
 import { PluginOptions } from '@t/index';
 import { addLangs } from './i18n/langs';
 import './css/plugin.css';
 
 const PREFIX = 'toastui-editor-';
+
+// Factory function for the ProseMirror plugin (TUI Editor expects functions, not instances)
+function createDetailsClickPlugin() {
+  return new Plugin({
+    props: {
+      handleClick(view, pos, event) {
+        const target = event.target as HTMLElement;
+        const summary = target.closest('summary');
+
+        if (summary) {
+          event.preventDefault();
+
+          const $pos = view.state.doc.resolve(pos);
+          let detailsNode = null;
+          let detailsPos = -1;
+
+          // Walk up depth to find the parent Details node
+          for (let d = $pos.depth; d >= 0; d -= 1) {
+            if ($pos.node(d).type.name === 'details') {
+              detailsNode = $pos.node(d);
+              detailsPos = $pos.before(d);
+              break;
+            }
+          }
+
+          if (detailsNode && detailsPos !== -1) {
+            const node = detailsNode;
+            const htmlAttrs = (node.attrs && node.attrs.htmlAttrs) || {};
+            const isOpenAttr = node.attrs.open;
+
+            const isOpen = isOpenAttr === true || (htmlAttrs && htmlAttrs.open !== null && typeof htmlAttrs.open !== 'undefined');
+
+            console.log('[Details Plugin] Click intercepted. Toggling from:', isOpen);
+
+            const newHtmlAttrs = { ...htmlAttrs };
+
+            if (isOpen) {
+              delete newHtmlAttrs.open;
+            } else {
+              newHtmlAttrs.open = '';
+            }
+
+            const newAttrs = {
+              ...node.attrs,
+              open: !isOpen,
+              htmlAttrs: newHtmlAttrs,
+            };
+
+            view.dispatch(view.state.tr.setNodeMarkup(detailsPos, null, newAttrs));
+            return true; // Stop propagation, we handled it
+          }
+        }
+        return false;
+      }
+    }
+  });
+}
 
 function createToolbarItemOption(i18n: I18n) {
   return {
@@ -170,6 +228,7 @@ export default function detailsPlugin(
     handleDetailsExit(context, event);
   });
 
+
   return {
     toHTMLRenderers: {
       htmlBlock: {
@@ -202,12 +261,74 @@ export default function detailsPlugin(
       },
     },
 
+    // Inject the ProseMirror plugin
+    wysiwygPlugins: [(() => {
+      console.log('[Details Plugin] Initializing ProseMirror plugin');
+      // @ts-ignore
+      if (typeof Plugin === 'undefined') {
+        console.error('[Details Plugin] CRITICAL: ProseMirror Plugin class is undefined');
+        return {};
+      }
+      return new Plugin({
+        props: {
+          handleClick(view, pos, event) {
+            const target = event.target as HTMLElement;
+            const summary = target.closest('summary');
+
+            if (summary) {
+              event.preventDefault();
+
+              const $pos = view.state.doc.resolve(pos);
+              let detailsNode = null;
+              let detailsPos = -1;
+
+              // Walk up depth to find the parent Details node
+              for (let d = $pos.depth; d >= 0; d -= 1) {
+                if ($pos.node(d).type.name === 'details') {
+                  detailsNode = $pos.node(d);
+                  detailsPos = $pos.before(d);
+                  break;
+                }
+              }
+
+              if (detailsNode && detailsPos !== -1) {
+                const node = detailsNode;
+                const htmlAttrs = (node.attrs && node.attrs.htmlAttrs) || {};
+                const isOpenAttr = node.attrs.open;
+
+                const isOpen = isOpenAttr === true || (htmlAttrs && htmlAttrs.open !== null && typeof htmlAttrs.open !== 'undefined');
+
+                console.log('[Details Plugin] Click intercepted. Toggling from:', isOpen);
+
+                const newHtmlAttrs = { ...htmlAttrs };
+
+                if (isOpen) {
+                  delete newHtmlAttrs.open;
+                } else {
+                  newHtmlAttrs.open = '';
+                }
+
+                const newAttrs = {
+                  ...node.attrs,
+                  open: !isOpen,
+                  htmlAttrs: newHtmlAttrs,
+                };
+
+                view.dispatch(view.state.tr.setNodeMarkup(detailsPos, null, newAttrs));
+                return true; // Stop propagation
+              }
+            }
+            return false;
+          }
+        }
+      });
+    }) as any],
 
     wysiwygNodeViews: {
       details: (node, view, getPos) => {
         const dom = document.createElement('details');
         const htmlAttrs = (node.attrs && node.attrs.htmlAttrs) || {};
-        const isOpenAttr = node.attrs.open; // Core definition uses direct attribute
+        const isOpenAttr = node.attrs.open;
 
         // Check both direct attribute (priority) and htmlAttrs (legacy/plugin)
         const isOpen = isOpenAttr === true || (htmlAttrs && htmlAttrs.open !== null && typeof htmlAttrs.open !== 'undefined');
@@ -216,34 +337,7 @@ export default function detailsPlugin(
           dom.open = true;
         }
 
-        dom.addEventListener('click', (e) => {
-          const target = e.target as HTMLElement;
-
-          if (target.tagName === 'SUMMARY' || target.closest('summary')) {
-            e.preventDefault();
-
-            const pos = getPos();
-
-            if (typeof pos === 'number') {
-              const isOpen = htmlAttrs.open !== null && typeof htmlAttrs.open !== 'undefined';
-              const newHtmlAttrs = { ...htmlAttrs };
-
-              if (isOpen) {
-                delete newHtmlAttrs.open;
-              } else {
-                newHtmlAttrs.open = '';
-              }
-
-              const newAttrs = {
-                ...node.attrs,
-                htmlAttrs: newHtmlAttrs,
-              };
-
-              view.dispatch(view.state.tr.setNodeMarkup(pos, null, newAttrs));
-            }
-          }
-        });
-
+        // Clean NodeView, no event listeners here
         return { dom, contentDOM: dom };
       },
     },

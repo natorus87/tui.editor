@@ -143,6 +143,10 @@ mark {
     border-color: rgba(255, 255, 255, 0.05);
 }
 
+.toastui-editor-dark mark {
+    color: #000;
+}
+
 .toastui-editor-button-container {
     display: flex;
     justify-content: flex-end;
