@@ -2,6 +2,11 @@
 
 > A maintained fork of the [Toast UI Editor](https://github.com/nhn/tui.editor) focused on modern UI/UX, dark mode compatibility, and enhanced plugin support.
 
+> [!NOTE]  
+> **Project Realization**  
+> This project was realized using **Vibe-Coding** and **Antigravity by [@google](https://github.com/google)**.
+
+
 ## 🚀 Overview
 
 `@licium/editor` is a powerful, extensible Markdown and WYSIWYG editor. This fork revitalizes the original project with a focus on:
@@ -79,3 +84,8 @@ npm install @licium/editor
 ## 📜 License
 
 This software is licensed under the [MIT](./LICENSE).
+
+## Acknowledgments & Credits
+
+*   **[@google](https://github.com/google)**: For the power of **Vibe-Coding**, **Antigravity**, and **Gemini**, which transformed the development of this project.
+*   **[@nhn](https://github.com/nhn) (Toast UI)**: For the excellent Markdown editor foundation.
